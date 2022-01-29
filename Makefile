@@ -1,4 +1,4 @@
-CC=clang
+CC=gcc
 RM=rm -f
 WARNING=-Wall -Wextra -Werror
 FLAGS=$(WARNING) -std=c11
