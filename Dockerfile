@@ -1,4 +1,4 @@
-FROM alpine:3.14
+FROM alpine:3.15
 RUN apk add --no-cache gcc make musl-dev clang-extra-tools
 
 COPY . /app/calculator
