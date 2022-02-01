@@ -3,12 +3,12 @@ RM=rm -f
 CLANG-FORMAT=clang-format
 
 WARNING=-Wall -Wextra -Werror
-CLANG-SPEC=-fuse-ld=lld --rtlib=compiler-rt
+CLANG-SPEC=-fuse-ld=lld --rtlib=compiler-rt -D_CRT_SECURE_NO_WARNINGS
 FLAGS=$(CLANG-SPEC) $(WARNING) -std=c11
 DEPS=src/calculator.c
 
 calculator: $(DEPS)
-	$(CC) $(FLAGS) $(DEPS) -o $@
+	$(CC) $(FLAGS) $(DEPS) -o $@.exe
 
 .PHONY: isformatted
 isformatted: $(DEPS)
