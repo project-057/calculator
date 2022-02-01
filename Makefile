@@ -3,7 +3,7 @@ RM=rm -f
 CLANG-FORMAT=clang-format
 
 WARNING=-Wall -Wextra -Werror
-CLANG-SPEC=-fuse-ld=lld
+CLANG-SPEC=-fuse-ld=lld --rtlib=compiler-rt
 FLAGS=$(CLANG-SPEC) $(WARNING) -std=c11
 DEPS=src/calculator.c
 
