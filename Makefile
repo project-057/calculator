@@ -1,12 +1,14 @@
-CC=gcc
+CC=clang
 RM=rm -f
 CLANG-FORMAT=clang-format
 
 WARNING=-Wall -Wextra -Werror
-FLAGS=$(WARNING) -std=c11
+CLANG-SPEC=-fuse-ld=lld --rtlib=compiler-rt -D_CRT_SECURE_NO_WARNINGS
+FLAGS=$(CLANG-SPEC) $(WARNING) -std=c11
 DEPS=src/calculator.c
+BINARY=calculator
 
-calculator: $(DEPS)
+$(BINARY): $(DEPS)
 	$(CC) $(FLAGS) $(DEPS) -o $@
 
 .PHONY: isformatted
