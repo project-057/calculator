@@ -1,4 +1,4 @@
-CC=gcc
+CC=clang
 RM=rm -f
 CLANG-FORMAT=clang-format
 
