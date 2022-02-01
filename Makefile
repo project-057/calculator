@@ -6,9 +6,10 @@ WARNING=-Wall -Wextra -Werror
 CLANG-SPEC=-fuse-ld=lld --rtlib=compiler-rt -D_CRT_SECURE_NO_WARNINGS
 FLAGS=$(CLANG-SPEC) $(WARNING) -std=c11
 DEPS=src/calculator.c
+BINARY=
 
 calculator: $(DEPS)
-	$(CC) $(FLAGS) $(DEPS) -o $@.exe
+	$(CC) $(FLAGS) $(DEPS) -o $@$(BINARY)
 
 .PHONY: isformatted
 isformatted: $(DEPS)
