@@ -10,7 +10,7 @@ DEPS=$(SRC) src/eval.h src/utils.h src/variable.h
 BINARY=calculator
 
 $(BINARY): $(DEPS)
-	$(CC) $(FLAGS) $(SRC) -o $@ 
+	$(CC) $(FLAGS) $(SRC) -o $@
 
 .PHONY: isformatted
 isformatted: $(DEPS)
