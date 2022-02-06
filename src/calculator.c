@@ -4,14 +4,14 @@
 
 int main(void)
 {
+    printf("Where is mistake?\n");
     char* string = "I have a string like + this";
-    fputs("Where is mistake?", stdin);
     TokenArray splited = split_to_tokens(string);
 
-    fprintf(stdin, "Count splited: %d\n", splited.count);
+    printf("Count splited: %d\n", splited.count);
 
     for (int i = 0; i < splited.count; ++i) {
-        fputs(splited.token_array[i], stdin);
+        printf("%s\n",splited.token_array[i]);
         free(splited.token_array[i]);
     }
 
