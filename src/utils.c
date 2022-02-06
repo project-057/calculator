@@ -1,4 +1,5 @@
 #include "utils.h"
+<<<<<<< HEAD
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -75,4 +76,14 @@ TokenArray split_to_tokens(char* infix_expr)
     }
 
     return stack;
+=======
+
+bool is_double(char* str)
+{
+    for (size_t i = 0; *(str + i) != '\0'; i++) {
+        if (!isdigit(str[i]) && str[i] != '-' && str[i] != '.')
+            return false;
+    }
+    return true;
+>>>>>>> origin/master
 }
