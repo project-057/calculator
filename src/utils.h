@@ -1,9 +1,12 @@
 #pragma once
 
 #include "variable.h"
+#include <stdlib.h>
 
 #define MAX_LENGTH 256
 #define MAX_VARS_AMOUNT 128
+
+void whitespace_cleaner(char*);
 
 // static char** split_to_tokens(char* infix_expr);
 //

@@ -3,25 +3,7 @@
 #include <string.h>
 
 #include "utils.h"
-
-static void whitespace_cleaner(char* str)
-{
-    size_t j = 0;
-    for (size_t i = 0; str[i] != '\0'; i++) {
-        if (str[i] != ' ') {
-            str[j++] = str[i];
-        }
-    }
-    str[j] = '\0';
-}
-
-static void init_variable(Variable* variables)
-{
-    for (size_t i = 0; i < MAX_VARS_AMOUNT; i++) {
-        variables[i].name = calloc(MAX_VARS_AMOUNT, sizeof(char*));
-        variables[i].value = 0;
-    }
-}
+#include "variable.h"
 
 int main(void)
 {
