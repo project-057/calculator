@@ -15,8 +15,6 @@ typedef char* string_t;
 
 stack_t* create_stack(void);
 
-string_t copy_string(const string_t);
-
 void push(stack_t*, string_t);
 
 string_t top(stack_t*);

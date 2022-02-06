@@ -10,14 +10,6 @@ stack_t* create_stack(void)
     return stack;
 }
 
-string_t copy_string_t(const string_t str)
-{
-    string_t tmp = malloc(strlen(str) + 1);
-    if (tmp)
-        strcpy(tmp, str);
-    return tmp;
-}
-
 void push(stack_t* stack, string_t value)
 {
     stack_entry* entry = malloc(sizeof *entry);

@@ -11,7 +11,7 @@ double eval(char** rpn_expr)
     char* endptr; /* strtod stuff */
 
     for (size_t i = 0; **(rpn_expr + i) != '\0'; i++) {
-        if (**(rpn_expr + i) >= '0' && **(rpn_expr + i) <= '9') { /* check if double */
+        if (is_double(*(rpn_expr + i))) { /* check if double */
             push(stack, *(rpn_expr + i));
         } else {
             double b = strtod(pop(stack), &endptr);
