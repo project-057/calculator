@@ -1,11 +1,11 @@
 #include <math.h>
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "utils.h"
 
-char** variables_to_values(char** tokens, Variable* vars_array, int token_size, int var_size) 
+char** variables_to_values(char** tokens, Variable* vars_array, int token_size, int var_size)
 {
     char** out = malloc(sizeof(**out) * token_size);
     for (size_t i = 0; i < token_size; i++) {
