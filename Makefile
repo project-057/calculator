@@ -4,8 +4,10 @@ CLANG-FORMAT=clang-format
 
 WARNING=-Wall -Wextra -Werror
 FLAGS=$(WARNING) -std=c11
-SRC=src/calculator.c src/vtv.c
-DEPS=$(SRC) src/eval.h src/utils.h src/variable.h
+
+SRC=src/calculator.c src/vtv.c src/eval.c src/utils.c src/stack.c
+DEPS=$(SRC) src/eval.h src/utils.h src/variable.h src/stack.h
+
 BINARY=calculator
 
 $(BINARY): $(DEPS)
