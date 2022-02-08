@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "variable.h"
 
@@ -10,6 +11,7 @@
 #define MAX_VARS_AMOUNT 128
 
 // static char** split_to_tokens(char*);
+void whitespace_cleaner(char*);
 //
 bool is_double(char*);
 // char** to_rpn(char**);
