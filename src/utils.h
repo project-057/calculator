@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "variable.h"
 
@@ -13,8 +14,9 @@
 // static char** split_to_tokens(char*);
 //
 bool is_double(char*);
-bool is_funciton(char*);
+bool is_function(char*);
 //
 char** to_rpn(char**);
+// char** to_rpn(char**);
 //
 // char** variables_to_values(char**);

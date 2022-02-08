@@ -1,21 +1,6 @@
 #include "utils.h"
 #include "stack.h"
 
-bool is_double(char* str)
-{
-	if (strlen(str) == 1 && str[0] == '-') return false;
-    for (size_t i = 0; *(str + i) != '\0'; i++) {
-        if (!isdigit(str[i]) && str[i] != '-' && str[i] != '.')
-            return false;
-    }
-    return true;
-}
-
-bool is_function(char* str)
-{
-	return str[0] == '$'; /* just for future 5th mark task*/
-}
-
 static bool is_operator(char character)
 {
     return (character == '+' || character == '-' || character == '*' || character == '/' || character == '^');
@@ -33,6 +18,21 @@ static int operations_priority(char first_opr, char second_opr)
     if (second_opr == '^' || ((second_opr == '*' || second_opr == '/') && (first_opr == '-' || first_opr == '+')))
         return 2; /* second operand has the higher priority */
     return 1; /* else first_opr has the higher priority */
+}
+
+bool is_double(char* str)
+{
+	if (strlen(str) == 1 && str[0] == '-') return false;
+    for (size_t i = 0; *(str + i) != '\0'; i++) {
+        if (!isdigit(str[i]) && str[i] != '-' && str[i] != '.')
+            return false;
+    }
+    return true;
+}
+
+bool is_function(char* str)
+{
+	return str[0] == '$'; /* just for future 5th mark task*/
 }
 
 char** to_rpn(char** infix_expr)
