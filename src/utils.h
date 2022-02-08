@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "variable.h"
 
@@ -14,5 +15,6 @@ void whitespace_cleaner(char*);
 //
 bool is_double(char*);
 // char** to_rpn(char**);
+bool is_function(char*);
 //
 // char** variables_to_values(char**);
