@@ -1,9 +1,9 @@
 #include "utils.h"
 
-bool is_double(char* str)
+bool is_double(String str)
 {
-    for (size_t i = 0; *(str + i) != '\0'; i++) {
-        if (!isdigit(str[i]) && str[i] != '-' && str[i] != '.')
+    for (int i = 0; i < str.size; i++) {
+        if (!isdigit(At(str, i)) && At(str, i) != '-' && At(str, i) != '.')
             return false;
     }
     return true;
