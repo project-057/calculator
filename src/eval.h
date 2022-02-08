@@ -1,3 +1,4 @@
 #pragma once
+#include "utils.h"
 
-double eval(char** rpn_expr);
+double eval(TokenArray rpn_expr);
