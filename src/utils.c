@@ -53,9 +53,11 @@ char** to_rpn(char** infix_expr)
         }
         if (is_operator(**(infix_expr + i))) {
             int priority = operations_priority(*top(stack), **(infix_expr + i));
+            bool left_associative = is_left_associative(**(infix_expr + i));
             for (;
-                 top(stack) != NULL && *top(stack) != '(' && (priority == 1 || (priority == 0 && is_left_associative(**(infix_expr + i))));
-                 priority = operations_priority(*top(stack), **(infix_expr + i))) {
+                 top(stack) != NULL && *top(stack) != '(' && (priority == 1 || (priority == 0 && left_associative));
+                 priority = operations_priority(*top(stack), **(infix_expr + i)),
+                 left_associative = is_left_associative(**(infix_expr + i))) {
                 strcpy(*(postfix_expr + j++), pop(stack));
             }
             push(stack, *(infix_expr + i));
