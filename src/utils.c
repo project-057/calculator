@@ -14,6 +14,12 @@ TokenArray NewTokenArray()
 {
     TokenArray ta;
     ta.array_ = malloc(sizeof(String) * MAX_LENGTH);
+
+    /* Calling String constructor */
+    for (int i = 0; i < MAX_LENGTH; i++) {
+        ta.array_[i] = NewString("");
+    }
+
     ta.size = 0;
     return ta;
 }
@@ -30,6 +36,10 @@ String TA_Pop(TokenArray* ta)
 
 void FreeTokenArray(TokenArray* ta)
 {
+    for (int i = 0; i < ta->size; i++) {
+        FreeString(&ta->array_[i]);
+    }
+
     free(ta->array_);
     ta->size = 0;
 }
