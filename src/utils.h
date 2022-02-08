@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "variable.h"
 
@@ -11,11 +12,8 @@
 
 // static char** split_to_tokens(char*);
 //
-static bool is_binary(char);
-//
-static int operations_priority(char, char);
-//
 bool is_double(char*);
+bool is_funciton(char*);
 //
 char** to_rpn(char**);
 //
