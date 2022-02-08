@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <stdlib.h>
 
 bool is_double(String str)
 {
@@ -9,10 +10,10 @@ bool is_double(String str)
     return true;
 }
 
-TokenArray NewTokenArray() 
+TokenArray NewTokenArray()
 {
     TokenArray ta;
-    ta.array_ = malloc(sizeof(String)*MAX_LENGTH);
+    ta.array_ = malloc(sizeof(String) * MAX_LENGTH);
     ta.size = 0;
     return ta;
 }
@@ -25,4 +26,10 @@ void PushBackToken(TokenArray* ta, String token)
 String TA_Pop(TokenArray* ta)
 {
     return ta->array_[ta->size--];
+}
+
+void FreeTokenArray(TokenArray* ta)
+{
+    free(ta->array_);
+    ta->size = 0;
 }

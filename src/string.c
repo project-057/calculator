@@ -1,9 +1,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "string.h"
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 String NewString(const char* stroke)
 {
@@ -113,7 +113,6 @@ void StringConcat(String* dest, String source)
     dest->size += source.size;
 }
 
-
 void IncreaseCapacity(String* const string, int expected_capacity)
 {
     if (string->capacity_ < expected_capacity) {
@@ -133,7 +132,6 @@ void Erase(String* string, int idx, int count)
     }
     string->size -= count;
 }
-
 
 String SubString(String string, int idx, int count)
 {

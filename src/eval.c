@@ -19,7 +19,7 @@ double eval(TokenArray rpn_expr)
             double a = strtod(pop(stack).string_, &endptr);
             double tmp = 0;
 
-            switch (At(rpn_expr.array_[i],0)) {
+            switch (At(rpn_expr.array_[i], 0)) {
             case '+':
                 tmp = a + b;
                 break;
