@@ -1,8 +1,8 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "string.h"
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-
 String NewString(const char* stroke)
 {
     String string;
@@ -70,7 +70,6 @@ void ReverseString(String* val, int idx, int count)
     assert(idx + count <= val->size);
 
     char* string = val->string_;
-    int n = val->size;
     for (int i = 0; i < count / 2; ++i) {
         char tmp = string[i + idx];
         string[i + idx] = string[idx + count - 1 - i];
@@ -112,15 +111,6 @@ void StringConcat(String* dest, String source)
     dest->size += source.size;
 }
 
-void PrintLnString(String string)
-{
-    puts(string.string_);
-}
-
-void PrintString(String string)
-{
-    printf("%s", string.string_);
-}
 
 void IncreaseCapacity(String* const string, int expected_capacity)
 {
@@ -142,19 +132,6 @@ void Erase(String* string, int idx, int count)
     string->size -= count;
 }
 
-void GetString(String* string)
-{
-    char s[MAX_INPUT_LEN];
-    scanf("%s", s);
-    *string = NewString(s);
-}
-
-void GetLine(String* string)
-{
-    char s[MAX_INPUT_LEN];
-    fgets(s, MAX_INPUT_LEN, stdin);
-    *string = NewString(s);
-}
 
 String SubString(String string, int idx, int count)
 {
