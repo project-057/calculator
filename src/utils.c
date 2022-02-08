@@ -22,7 +22,8 @@ static int operations_priority(char first_opr, char second_opr)
 
 bool is_double(char* str)
 {
-	if (strlen(str) == 1 && str[0] == '-') return false;
+    if (strlen(str) == 1 && str[0] == '-')
+        return false;
     for (size_t i = 0; *(str + i) != '\0'; i++) {
         if (!isdigit(str[i]) && str[i] != '-' && str[i] != '.')
             return false;
@@ -32,7 +33,7 @@ bool is_double(char* str)
 
 bool is_function(char* str)
 {
-	return str[0] == '$'; /* just for future 5th mark task*/
+    return str[0] == '$'; /* just for future 5th mark task*/
 }
 
 char** to_rpn(char** infix_expr)
@@ -66,10 +67,9 @@ char** to_rpn(char** infix_expr)
             while (*strcpy(tmp, pop(stack)) != '(') {
                 strcpy(*(postfix_expr + j++), tmp);
             }
-			continue;
+            continue;
         }
-
-	}
+    }
 
     while (top(stack) != NULL) {
         strcpy(*(postfix_expr + j++), pop(stack));
