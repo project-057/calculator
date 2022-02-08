@@ -3,6 +3,9 @@
 #include "utils.h"
 #include "variable.h"
 
+const char* variable_request = "Write a variable with its value \033[0;33m(or press <C-d> to stop)\
+                              \n\033[0;31muse format -> 'x = 1.0' :\033[0m";
+
 int main(void)
 {
     char* line = calloc(MAX_LENGTH, sizeof *line);
@@ -14,8 +17,6 @@ int main(void)
     puts("Write a math expression: ");
     fgets(expression, MAX_LENGTH, stdin);
 
-    char* variable_request = "Write a variable with its value \033[0;33m(or press <C-d> to stop)\
-                              \n\033[0;31muse format -> 'x = 1.0' :\033[0m";
     puts(variable_request);
 
     for (size_t counter = 0; fgets(line, MAX_LENGTH, stdin); counter++) {
