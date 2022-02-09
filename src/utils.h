@@ -10,6 +10,11 @@
 #define MAX_LENGTH 256
 #define MAX_VARS_AMOUNT 128
 
+typedef struct {
+    char** array;
+    int size;
+} TokenArray;
+
 // static char** split_to_tokens(char*);
 void whitespace_cleaner(char*);
 //
