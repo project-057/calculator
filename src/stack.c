@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include "stack.h"
 
 stack_t* create_stack(void)
