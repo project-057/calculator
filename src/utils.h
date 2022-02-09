@@ -15,10 +15,12 @@ typedef struct {
     int size;
 } TokenArray;
 
-// static char** split_to_tokens(char*);
-void whitespace_cleaner(char*);
+// static TokenArray split_to_tokens(char* expression);
 //
-bool is_double(char*);
-// char** to_rpn(char**);
+// TokenArray to_rpn(TokenArray expression);
 //
-// char** variables_to_values(char**);
+// TokenArray variables_to_values(TokenArray expression);
+
+void whitespace_cleaner(char* string);
+
+bool is_double(char* value);
