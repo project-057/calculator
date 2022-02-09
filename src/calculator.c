@@ -1,8 +1,8 @@
 #include <stdio.h>
 
+#include "eval.h"
 #include "utils.h"
 #include "variable.h"
-#include "eval.h"
 
 const char* variable_request = "Write a variable with its value \033[0;33m(or press <C-d> to stop)\
                               \n\033[0;31muse format -> 'x = 1.0' :\033[0m";
