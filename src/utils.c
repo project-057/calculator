@@ -1,16 +1,8 @@
 #include "utils.h"
-<<<<<<< HEAD
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-typedef enum {
-    SM_NONE,
-    SM_WORD,
-    SM_OPERATOR,
-    SM_VALUE
-} SplitMode;
 
 static bool in(char* array, char value)
 {
@@ -26,7 +18,7 @@ static void parse_character(char character, bool* changed)
 {
     static SplitMode sm = SM_NONE;
     char operators[] = "+-/*()";
-    
+
     if ((character <= 'Z' && character >= 'A') || (character <= 'z' && character >= 'a')) {
         *changed = sm != SM_WORD;
         sm = SM_WORD;
@@ -41,7 +33,6 @@ static void parse_character(char character, bool* changed)
         sm = SM_NONE;
     }
 }
-
 
 TokenArray split_to_tokens(char* infix_expr)
 {
@@ -76,7 +67,7 @@ TokenArray split_to_tokens(char* infix_expr)
     }
 
     return stack;
-=======
+}
 
 void whitespace_cleaner(char* str)
 {
@@ -96,5 +87,4 @@ bool is_double(char* str)
             return false;
     }
     return true;
->>>>>>> origin/master
 }

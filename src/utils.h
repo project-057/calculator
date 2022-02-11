@@ -20,6 +20,15 @@ typedef struct {
 //
 // TokenArray variables_to_values(TokenArray expression);
 
+typedef enum {
+    SM_NONE,
+    SM_WORD,
+    SM_OPERATOR,
+    SM_VALUE
+} SplitMode;
+
+TokenArray split_to_tokens(char* infix_expr);
+
 void whitespace_cleaner(char* string);
 
 bool is_double(char* value);
