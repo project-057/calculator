@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include <string.h>
+#pragma once
 
 typedef struct stack_entry {
     char* data;
