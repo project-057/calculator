@@ -69,8 +69,7 @@ TokenArray to_rpn(TokenArray infix_expr)
         if (is_double(infix_expr.array[i]) || is_function(infix_expr.array[i])) {
             strcpy(postfix_expr.array[j++], infix_expr.array[i]);
             continue;
-        }
-        if (is_operator(infix_expr.array[i][0])) {
+        } else if (is_operator(infix_expr.array[i][0])) {
             int priority = operations_priority(*top(stack), infix_expr.array[i][0]);
             bool left_associative = is_left_associative(infix_expr.array[i][0]);
 
@@ -80,18 +79,13 @@ TokenArray to_rpn(TokenArray infix_expr)
                 left_associative = is_left_associative(infix_expr.array[i][0]);
             }
             push(stack, infix_expr.array[i]);
-            continue;
-        }
-        if (infix_expr.array[i][0] == '(') {
+        } else if (infix_expr.array[i][0] == '(') {
             push(stack, "(");
-            continue;
-        }
-        if (infix_expr.array[i][0] == ')') {
+        } else if (infix_expr.array[i][0] == ')') {
             char* tmp = calloc(MAX_LENGTH, sizeof *tmp);
             while (*strcpy(tmp, pop(stack)) != '(') {
                 strcpy(postfix_expr.array[j++], tmp);
             }
-            continue;
         }
     }
 
