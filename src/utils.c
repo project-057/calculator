@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 static bool in(char* array, char value)
 {
@@ -17,7 +18,7 @@ static bool in(char* array, char value)
 static void parse_character(char character, bool* changed)
 {
     static SplitMode sm = SM_NONE;
-    char operators[] = "+-/*()";
+    char operators[] = "+-/*^()";
 
     if ((character <= 'Z' && character >= 'A') || (character <= 'z' && character >= 'a')) {
         *changed = sm != SM_WORD;
@@ -26,7 +27,7 @@ static void parse_character(char character, bool* changed)
         *changed = sm != SM_VALUE;
         sm = SM_VALUE;
     } else if (in(operators, character)) {
-        *changed = sm != SM_OPERATOR;
+        *changed = true;
         sm = SM_OPERATOR;
     } else {
         *changed = sm != SM_NONE;
@@ -36,12 +37,12 @@ static void parse_character(char character, bool* changed)
 
 TokenArray split_to_tokens(char* infix_expr)
 {
-    puts("Called\n");
+    whitespace_cleaner(infix_expr);
 
     int len = strlen(infix_expr);
 
-    TokenArray stack = { .token_array = calloc(1, sizeof(char*)), .count = 0 };
-    stack.token_array[0] = calloc(1, sizeof(char));
+    TokenArray stack = NewTokenArray();
+    stack.size++;
 
     int current_token_size = 0;
 
@@ -49,21 +50,15 @@ TokenArray split_to_tokens(char* infix_expr)
 
     for (int i = 0; i < len; ++i) {
         parse_character(infix_expr[i], &changed);
-        printf("Character: %c \tChanged: %s\n", infix_expr[i], (changed ? "true" : "false"));
 
         if (changed && current_token_size != 0) {
-            stack.token_array = realloc(stack.token_array, stack.count + 2);
-            puts(stack.token_array[stack.count - 1]);
-            stack.count++;
+            stack.size++;
             current_token_size = 0;
-            changed = false;
         }
 
-        printf("Still searching mistake\n");
-        stack.token_array[stack.count - 1] = realloc(stack.token_array[stack.count - 1], current_token_size + 2);
-        printf("Still searching mistake\n");
-        stack.token_array[stack.count - 1][current_token_size++] = infix_expr[i];
-        stack.token_array[stack.count - 1][current_token_size] = '\0';
+        assert(current_token_size + 1 < MAX_TOKEN_LENGTH);
+
+        stack.array[stack.size-1][current_token_size++] = infix_expr[i];
     }
 
     return stack;
@@ -87,4 +82,23 @@ bool is_double(char* str)
             return false;
     }
     return true;
+}
+
+TokenArray NewTokenArray()
+{
+    TokenArray out = { .array = calloc(MAX_LENGTH, sizeof(char*)), .size = 0 };
+    for (int i = 0; i < MAX_LENGTH; i++) {
+        out.array[i] = calloc(MAX_TOKEN_LENGTH, sizeof(char));
+    }
+
+    return out;
+}
+
+void FreeTokenArray(TokenArray* ta)
+{
+    for (int i = 0; i < MAX_LENGTH; i++) {
+        free(ta->array[i]);
+    }
+    free(ta->array);
+    ta->size = 0;
 }

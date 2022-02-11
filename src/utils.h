@@ -8,6 +8,7 @@
 
 #define MAX_LENGTH 256
 #define MAX_VARS_AMOUNT 128
+#define MAX_TOKEN_LENGTH 50
 
 typedef struct {
     char** array;
@@ -26,6 +27,10 @@ typedef enum {
     SM_OPERATOR,
     SM_VALUE
 } SplitMode;
+
+TokenArray NewTokenArray();
+
+void FreeTokenArray(TokenArray* ta);
 
 TokenArray split_to_tokens(char* infix_expr);
 
