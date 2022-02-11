@@ -13,7 +13,7 @@
 
 typedef struct {
     char** array;
-    int size;
+    unsigned size;
 } TokenArray;
 
 // static TokenArray split_to_tokens(char* expression);
