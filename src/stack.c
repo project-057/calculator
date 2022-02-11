@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "stack.h"
 
 stack_t* create_stack(void)

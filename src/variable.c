@@ -1,3 +1,6 @@
+#include <stdlib.h>
+
+#include "utils.h"
 #include "variable.h"
 
 void init_variable(Variable* variables)

@@ -1,5 +1,9 @@
-#include "utils.h"
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "stack.h"
+#include "utils.h"
 
 static bool is_operator(char character)
 {

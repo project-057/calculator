@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <string.h>
-
 typedef struct stack_entry {
     char* data;
     struct stack_entry* next;
@@ -8,7 +5,7 @@ typedef struct stack_entry {
 
 typedef struct stack_t {
     stack_entry* head;
-    size_t stackSize;
+    int stackSize;
 } stack_t;
 
 typedef char* string_t;
