@@ -1,26 +1,25 @@
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "utils.h"
 
-char** variables_to_values(char** tokens, Variable* vars_array, int token_size, int var_size)
+TokenArray variables_to_values(TokenArray tokens, Variable* vars_array, int var_size)
 {
-    char** out = malloc(sizeof(**out) * token_size);
-    for (size_t i = 0; i < token_size; i++) {
-        out[i] = malloc(MAX_LENGTH);
-        strcpy(out[i], tokens[i]);
+    char** out_arr = malloc(sizeof(**out_arr) * tokens.size);
+    for (int i = 0; i < tokens.size; i++) {
+        out_arr[i] = malloc(MAX_LENGTH);
+        strcpy(out_arr[i], tokens.array[i]);
     }
-    for (size_t i = 0; i < token_size; i++) {
-        if ((tokens[i][0] >= 'a' && tokens[i][0] <= 'z') || (tokens[i][0] >= 'A' && tokens[i][0] <= 'Z')) {
-            for (size_t j = 0; j < var_size; j++) {
-                if (strcmp(tokens[i], vars_array[j].name) == 0) {
-                    sprintf(out[i], "%.9f", vars_array[j].value);
+    for (int i = 0; i < tokens.size; i++) {
+        if ((tokens.array[i][0] >= 'a' && tokens.array[i][0] <= 'z') || (tokens.array[i][0] >= 'A' && tokens.array[i][0] <= 'Z')) {
+            for (int j = 0; j < var_size; j++) {
+                if (strcmp(tokens.array[i], vars_array[j].name) == 0) {
+                    sprintf(out_arr[i], "%.9f", vars_array[j].value);
                     break;
                 }
             }
         }
     }
+    TokenArray out;
+    out.array = out_arr;
+    out.size = tokens.size;
     return out;
 }
