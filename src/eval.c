@@ -8,7 +8,7 @@ double eval(TokenArray rpn_expr)
     stack_t* stack = create_stack();
     char* endptr; /* strtod stuff */
 
-    for (size_t i = 0; i < rpn_expr.size; i++) {
+    for (int i = 0; i < rpn_expr.size; i++) {
         if (is_double(rpn_expr.array[i])) { /* check if double */
             push(stack, rpn_expr.array[i]);
         } else {

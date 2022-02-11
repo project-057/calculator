@@ -21,7 +21,7 @@ int main(void)
     puts(variable_request);
 
     /* TODO: Using get_variable instead */
-    for (size_t counter = 0; fgets(line, MAX_LENGTH, stdin); counter++) {
+    for (int counter = 0; fgets(line, MAX_LENGTH, stdin); counter++) {
         puts(variable_request);
         whitespace_cleaner(line);
 
@@ -37,7 +37,7 @@ int main(void)
 
     /* Use TokenArray instead char** */
     // char **tokens = calloc(MAX_LENGTH, sizeof(char*));
-    // for(size_t i = 0 ; i < 11 ; i++)
+    // for(int i = 0 ; i < 11 ; i++)
     // {
     //    *(tokens + i) = calloc(1, sizeof(char) * MAX_LENGTH);
     // }
