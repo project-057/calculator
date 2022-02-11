@@ -87,7 +87,9 @@ bool is_double(char* str)
 
 TokenArray NewTokenArray()
 {
-    TokenArray out = { .array = calloc(MAX_LENGTH, sizeof(char*)), .size = 0 };
+    TokenArray out = { .array = calloc(MAX_LENGTH, sizeof(char*)),
+        .size = 0 };
+
     for (int i = 0; i < MAX_LENGTH; i++) {
         out.array[i] = calloc(MAX_TOKEN_LENGTH, sizeof(char));
     }
