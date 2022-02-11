@@ -70,7 +70,6 @@ TokenArray to_rpn(TokenArray infix_expr)
 
         if (is_double(infix_expr.array[i]) || is_function(infix_expr.array[i])) {
             strcpy(postfix_expr.array[j++], infix_expr.array[i]);
-            continue;
         } else if (is_operator(first_char)) {
             int priority = operations_priority(*top(stack), first_char);
             bool left_associative = is_left_associative(first_char);
