@@ -2,21 +2,21 @@
 #include "stack.h"
 #include "utils.h"
 
-double eval(char** rpn_expr)
+double eval(TokenArray rpn_expr)
 {
     double result;
     stack_t* stack = create_stack();
     char* endptr; /* strtod stuff */
 
-    for (size_t i = 0; **(rpn_expr + i) != '\0'; i++) {
-        if (is_double(*(rpn_expr + i))) { /* check if double */
-            push(stack, *(rpn_expr + i));
+    for (int i = 0; i < rpn_expr.size; i++) {
+        if (is_double(rpn_expr.array[i])) { /* check if double */
+            push(stack, rpn_expr.array[i]);
         } else {
             double b = strtod(pop(stack), &endptr);
             double a = strtod(pop(stack), &endptr);
             double tmp = 0;
 
-            switch (**(rpn_expr + i)) {
+            switch (rpn_expr.array[i][0]) {
             case '+':
                 tmp = a + b;
                 break;

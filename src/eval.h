@@ -2,4 +2,6 @@
 
 #include <math.h>
 
-double eval(char** rpn_expr);
+#include "utils.h"
+
+double eval(TokenArray rpn_expr);
