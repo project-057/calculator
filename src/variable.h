@@ -1,7 +1,5 @@
 #pragma once
 
-#include "utils.h"
-
 typedef struct {
     char* name;
     double value;
