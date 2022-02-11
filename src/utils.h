@@ -20,7 +20,7 @@ bool is_function(char*);
 TokenArray to_rpn(TokenArray expression);
 // char** to_rpn(char**);
 //
-// TokenArray variables_to_values(TokenArray expression);
+TokenArray variables_to_values(TokenArray tokens, Variable* vars_array, int var_size);
 
 void whitespace_cleaner(char* string);
 
