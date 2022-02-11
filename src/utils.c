@@ -66,22 +66,24 @@ TokenArray to_rpn(TokenArray infix_expr)
     int j = 0;
 
     for (int i = 0; i < infix_expr.size; i++) {
+		char first_char = infix_expr.array[i][0];
+
         if (is_double(infix_expr.array[i]) || is_function(infix_expr.array[i])) {
             strcpy(postfix_expr.array[j++], infix_expr.array[i]);
             continue;
-        } else if (is_operator(infix_expr.array[i][0])) {
-            int priority = operations_priority(*top(stack), infix_expr.array[i][0]);
-            bool left_associative = is_left_associative(infix_expr.array[i][0]);
+        } else if (is_operator(first_char)) {
+            int priority = operations_priority(*top(stack), first_char);
+            bool left_associative = is_left_associative(first_char);
 
             while (top(stack) != NULL && *top(stack) != '(' && (priority == 1 || (priority == 0 && left_associative))) {
                 strcpy(postfix_expr.array[j++], pop(stack));
-                priority = operations_priority(*top(stack), infix_expr.array[i][0]);
-                left_associative = is_left_associative(infix_expr.array[i][0]);
+                priority = operations_priority(*top(stack), first_char);
+                left_associative = is_left_associative(first_char);
             }
             push(stack, infix_expr.array[i]);
-        } else if (infix_expr.array[i][0] == '(') {
+        } else if (first_char == '(') {
             push(stack, "(");
-        } else if (infix_expr.array[i][0] == ')') {
+        } else if (first_char == ')') {
             char* tmp = calloc(MAX_LENGTH, sizeof *tmp);
             while (*strcpy(tmp, pop(stack)) != '(') {
                 strcpy(postfix_expr.array[j++], tmp);
