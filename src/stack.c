@@ -13,15 +13,15 @@ stack_t* create_stack(void)
     return stack;
 }
 
-string_t copy_string_t(const string_t str)
+char* copy_string_t(const char* str)
 {
-    string_t tmp = malloc(strlen(str) + 1);
+    char* tmp = malloc(strlen(str) + 1);
     if (tmp)
         strcpy(tmp, str);
     return tmp;
 }
 
-void push(stack_t* stack, string_t value)
+void push(stack_t* stack, char* value)
 {
     stack_entry* entry = malloc(sizeof *entry);
     if (entry) {
@@ -32,7 +32,7 @@ void push(stack_t* stack, string_t value)
     }
 }
 
-string_t top(stack_t* stack)
+char* top(stack_t* stack)
 {
     if (stack && stack->head)
         return stack->head->data;
@@ -40,9 +40,9 @@ string_t top(stack_t* stack)
         return NULL;
 }
 
-string_t pop(stack_t* stack)
+char* pop(stack_t* stack)
 {
-    string_t top_element = top(stack);
+    char* top_element = top(stack);
     if (stack->head != NULL) {
         stack->head = stack->head->next;
         stack->stackSize--;
