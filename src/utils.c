@@ -12,7 +12,7 @@ static bool is_operator(char character)
 
 static bool is_left_associative(char character)
 {
-    return character == '^' ? false : true;
+    return character != '^';
 }
 
 static int operations_priority(char first_opr, char second_opr)
