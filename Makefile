@@ -8,7 +8,6 @@ FLAGS=$(WARNING) -std=c11 -lm
 SRC=src/calculator.c src/eval.c src/utils.c src/stack.c src/variable.c src/vtv.c
 
 DEPS=$(SRC) src/eval.h src/utils.h src/variable.h src/stack.h
-
 BINARY=calculator
 
 $(BINARY): $(DEPS)
