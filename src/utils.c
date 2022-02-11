@@ -1,9 +1,9 @@
 #include "utils.h"
+#include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 static bool in(char* array, char value)
 {
@@ -58,7 +58,7 @@ TokenArray split_to_tokens(char* infix_expr)
 
         assert(current_token_size + 1 < MAX_TOKEN_LENGTH);
 
-        stack.array[stack.size-1][current_token_size++] = infix_expr[i];
+        stack.array[stack.size - 1][current_token_size++] = infix_expr[i];
     }
 
     return stack;

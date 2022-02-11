@@ -47,7 +47,6 @@ int main(void)
     // tokens = to_rpn(&expression);
 
     // tokens = variable_to_values(tokens);
-    
 
     return 0;
 }
