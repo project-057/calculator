@@ -66,7 +66,7 @@ TokenArray to_rpn(TokenArray infix_expr)
     int j = 0;
 
     for (int i = 0; i < infix_expr.size; i++) {
-		char first_char = infix_expr.array[i][0];
+        char first_char = infix_expr.array[i][0];
 
         if (is_double(infix_expr.array[i]) || is_function(infix_expr.array[i])) {
             strcpy(postfix_expr.array[j++], infix_expr.array[i]);
