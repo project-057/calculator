@@ -28,22 +28,22 @@ static bool in(char* array, char value)
     return false;
 }
 
-static void parse_character(char character, bool* changed)
+static bool is_character_changed(char character)
 {
     static SplitMode split_mode = SM_NONE;
     char operators[] = "+-/*^()";
 
     if (isalpha(character)) {
-        *changed = split_mode != SM_WORD;
+        return split_mode != SM_WORD;
         split_mode = SM_WORD;
     } else if (isdigit(character) || character == '.') {
-        *changed = split_mode != SM_VALUE;
+        return split_mode != SM_VALUE;
         split_mode = SM_VALUE;
     } else if (in(operators, character)) {
-        *changed = true;
+        return true;
         split_mode = SM_OPERATOR;
     } else {
-        *changed = split_mode != SM_NONE;
+        return split_mode != SM_NONE;
         split_mode = SM_NONE;
     }
 }
@@ -52,16 +52,15 @@ TokenArray split_to_tokens(char* infix_expr)
 {
     whitespace_cleaner(infix_expr);
 
-    int len = strlen(infix_expr);
-
     TokenArray stack = create_token_array();
 
+    int len = strlen(infix_expr);
     int current_token_size = 0;
+
     bool changed = false;
 
     for (int i = 0; i < len; ++i) {
-        parse_character(infix_expr[i], &changed);
-        if (changed && current_token_size != 0) {
+        if (is_character_changed(infix_expr[i]) && current_token_size != 0) {
             stack.size++;
             current_token_size = 0;
         }
@@ -120,11 +119,9 @@ TokenArray create_token_array()
         .array = calloc(MAX_LENGTH, sizeof(char*)),
         .size = 1
     };
-
     for (int i = 0; i < MAX_LENGTH; i++) {
         out.array[i] = calloc(MAX_TOKEN_LENGTH, sizeof(char));
     }
-
     return out;
 }
 
