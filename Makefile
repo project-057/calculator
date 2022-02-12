@@ -11,6 +11,7 @@ SRC=src/calculator.c $(SRC_WITHOUT_MAIN)
 DEPS=$(SRC) src/eval.h src/utils.h src/variable.h src/stack.h
 BINARY=calculator
 
+TEST_FLAGS=$(FLAGS) -g -O0
 TEST_SRC=tests/smoke.c
 TEST_DEPS=$(TEST_SRC) tests/greatest.h
 TEST_BINARY=./test_smoke
@@ -32,7 +33,7 @@ clean:
 	$(RM) $(TEST_BINARY)
 
 $(TEST_BINARY): $(TEST_DEPS)
-	$(CC) $(FLAGS) $(TEST_SRC) $(SRC_WITHOUT_MAIN) -o $@
+	$(CC) $(TEST_FLAGS) $(TEST_SRC) $(SRC_WITHOUT_MAIN) -o $@
 
 .PHONY: test
 test: $(TEST_BINARY)
