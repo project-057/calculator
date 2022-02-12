@@ -5,12 +5,16 @@ on:
   pull_request:
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Build calculator
       run: docker build . --file Dockerfile --tag building:$(date +%s)
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
     - name: Rebuild and run tests
       run: docker build . --file Dockerfile.testing --tag testing:$(date +%s)
