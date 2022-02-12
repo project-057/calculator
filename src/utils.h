@@ -1,8 +1,6 @@
 #pragma once
 #include <ctype.h>
 #include <stdbool.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "variable.h"
 
@@ -15,11 +13,12 @@ typedef struct {
     int size;
 } TokenArray;
 
-// static TokenArray split_to_tokens(char* expression);
-//
-// TokenArray to_rpn(TokenArray expression);
-//
-// TokenArray variables_to_values(TokenArray expression);
+bool is_double(char*);
+bool is_function(char*);
+
+TokenArray to_rpn(TokenArray expression);
+
+TokenArray variables_to_values(TokenArray tokens, Variable* vars_array, int var_size);
 
 TokenArray create_token_array();
 
