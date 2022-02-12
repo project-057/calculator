@@ -5,3 +5,4 @@
 
 # trash of MacOS
 .DS_Store
+*.dSYM
