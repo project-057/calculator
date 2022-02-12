@@ -1,15 +1,12 @@
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "stack.h"
-#include "utils.h"
 #include <assert.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "stack.h"
+#include "utils.h"
 
 typedef enum {
     SM_NONE,
@@ -32,20 +29,23 @@ static bool is_character_changed(char character)
 {
     static SplitMode split_mode = SM_NONE;
     char operators[] = "+-/*^()";
+    bool changed;
 
     if (isalpha(character)) {
-        return split_mode != SM_WORD;
+        changed = split_mode != SM_WORD;
         split_mode = SM_WORD;
     } else if (isdigit(character) || character == '.') {
-        return split_mode != SM_VALUE;
+        changed = split_mode != SM_VALUE;
         split_mode = SM_VALUE;
     } else if (in(operators, character)) {
-        return true;
+        changed = true;
         split_mode = SM_OPERATOR;
     } else {
-        return split_mode != SM_NONE;
+        changed = split_mode != SM_NONE;
         split_mode = SM_NONE;
     }
+
+    return changed;
 }
 
 TokenArray split_to_tokens(char* infix_expr)
