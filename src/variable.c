@@ -2,7 +2,6 @@
 
 #include "utils.h"
 #include "variable.h"
-#include "utils.h"
 
 void init_variable(Variable* variables)
 {
