@@ -21,16 +21,9 @@ typedef struct {
 //
 // TokenArray variables_to_values(TokenArray expression);
 
-typedef enum {
-    SM_NONE,
-    SM_WORD,
-    SM_OPERATOR,
-    SM_VALUE
-} SplitMode;
+TokenArray create_token_array();
 
-TokenArray NewTokenArray();
-
-void FreeTokenArray(TokenArray* ta);
+void free_token_array(TokenArray* ta);
 
 TokenArray split_to_tokens(char* infix_expr);
 
