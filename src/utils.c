@@ -138,9 +138,15 @@ bool is_function(char* str)
 
 TokenArray to_rpn(TokenArray infix_expr)
 {
-    stack_t* stack = create_stack();
-    TokenArray postfix_expr = create_token_array();
-    postfix_expr.size = 0;
+    Stack* stack = create_stack();
+    TokenArray postfix_expr = {
+        .array = calloc(MAX_LENGTH, sizeof postfix_expr),
+        .size = 0
+    };
+
+    for (int i = 0; i < MAX_LENGTH; i++) {
+        postfix_expr.array[i] = calloc(MAX_LENGTH, sizeof(char*));
+    }
 
     int j = 0;
 

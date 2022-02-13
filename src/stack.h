@@ -5,19 +5,19 @@ typedef struct stack_entry {
     struct stack_entry* next;
 } stack_entry;
 
-typedef struct stack_t {
+typedef struct Stack {
     stack_entry* head;
     int stackSize;
-} stack_t;
+} Stack;
 
-stack_t* create_stack(void);
+Stack* create_stack(void);
 
-void push(stack_t*, char* value);
+void push(Stack*, char* value);
 
-char* top(stack_t*);
+char* top(Stack*);
 
-char* pop(stack_t*);
+char* pop(Stack*);
 
-void clear(stack_t*);
+void clear(Stack*);
 
-void delete_stack(stack_t**);
+void delete_stack(Stack**);
