@@ -67,7 +67,6 @@ TokenArray split_to_tokens(char* infix_expr)
     TokenArray stack = create_token_array();
     int len = strlen(infix_expr);
     int current_token_size = 0;
-    bool changed = false;
 
     for (int i = 0; i < len; ++i) {
         if (is_token_type_changed(infix_expr[i], i) && current_token_size != 0) {
@@ -202,8 +201,6 @@ TokenArray to_rpn(TokenArray infix_expr)
             while (top(stack) != NULL && *top(stack) != '(' && (priority == 1 || (priority == 0 && left_associative))) {
                 strcpy(postfix_expr.array[j++], pop(stack));
                 priority = operations_priority(*top(stack), first_char);
-                printf("%c\n", first_char);
-                printf("%d", priority);
                 left_associative = is_left_associative(first_char);
             }
             push(stack, infix_expr.array[i]);
