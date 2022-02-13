@@ -1,9 +1,69 @@
+#include <assert.h>
 #include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "stack.h"
 #include "utils.h"
+
+typedef enum {
+    SM_NONE,
+    SM_WORD,
+    SM_OPERATOR,
+    SM_VALUE
+} SplitMode;
+
+static bool in(char* array, char value)
+{
+    int n = strlen(array);
+    for (int i = 0; i < n; ++i) {
+        if (array[i] == value)
+            return true;
+    }
+    return false;
+}
+
+static bool is_character_changed(char character)
+{
+    static SplitMode split_mode = SM_NONE;
+    SplitMode previous = split_mode;
+    char operators[] = "+-/*^()";
+
+    if (isalpha(character)) {
+        split_mode = SM_WORD;
+    } else if (isdigit(character) || character == '.') {
+        split_mode = SM_VALUE;
+    } else if (in(operators, character)) {
+        split_mode = SM_OPERATOR;
+        return true;
+    } else {
+        split_mode = SM_NONE;
+    }
+
+    return split_mode != previous;
+}
+
+TokenArray split_to_tokens(char* infix_expr)
+{
+    whitespace_cleaner(infix_expr);
+    TokenArray stack = create_token_array();
+    int len = strlen(infix_expr);
+    int current_token_size = 0;
+    bool changed = false;
+
+    for (int i = 0; i < len; ++i) {
+        if (is_character_changed(infix_expr[i]) && current_token_size != 0) {
+            stack.size++;
+            current_token_size = 0;
+        }
+
+        stack.array[stack.size - 1][current_token_size++] = infix_expr[i];
+    }
+
+    return stack;
+}
 
 static bool is_operator(char character)
 {
@@ -65,6 +125,27 @@ bool is_double(char* str)
     return true;
 }
 
+TokenArray create_token_array()
+{
+    TokenArray out = {
+        .array = calloc(MAX_LENGTH, sizeof(char*)),
+        .size = 1
+    };
+    for (int i = 0; i < MAX_LENGTH; i++) {
+        out.array[i] = calloc(MAX_TOKEN_LENGTH, sizeof(char));
+    }
+    return out;
+}
+
+void free_token_array(TokenArray* ta)
+{
+    for (int i = 0; i < MAX_LENGTH; i++) {
+        free(ta->array[i]);
+    }
+    free(ta->array);
+    ta->size = 0;
+}
+
 bool is_function(char* str)
 {
     return str[0] == '$'; /* just for future 5th mark task*/
@@ -90,12 +171,18 @@ TokenArray to_rpn(TokenArray infix_expr)
         if (is_double(infix_expr.array[i]) || is_function(infix_expr.array[i])) {
             strcpy(postfix_expr.array[j++], infix_expr.array[i]);
         } else if (is_operator(first_char)) {
-            int priority = operations_priority(*top(stack), first_char);
+            int priority = -1;
+
+            if (top(stack) != NULL)
+                priority = operations_priority(*top(stack), first_char);
+
             bool left_associative = is_left_associative(first_char);
 
             while (top(stack) != NULL && *top(stack) != '(' && (priority == 1 || (priority == 0 && left_associative))) {
                 strcpy(postfix_expr.array[j++], pop(stack));
                 priority = operations_priority(*top(stack), first_char);
+                printf("%c\n", first_char);
+                printf("%d", priority);
                 left_associative = is_left_associative(first_char);
             }
             push(stack, infix_expr.array[i]);
@@ -106,6 +193,7 @@ TokenArray to_rpn(TokenArray infix_expr)
             while (*strcpy(tmp, pop(stack)) != '(') {
                 strcpy(postfix_expr.array[j++], tmp);
             }
+            free(tmp);
         }
     }
 
