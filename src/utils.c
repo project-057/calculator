@@ -74,39 +74,13 @@ TokenArray split_to_tokens(char* infix_expr)
             stack.size++;
             current_token_size = 0;
         }
-
+        if (infix_expr[i] == '-' && (i == 0 || infix_expr[i-1] == '(')) {
+            stack.array[stack.size - 1][current_token_size++] = '0';
+        }
         stack.array[stack.size - 1][current_token_size++] = infix_expr[i];
     }
 
-    /* Checking to unary minus */
-    TokenArray out = create_token_array();
-    bool is_unary_minus = false;
-
-    for (int i = 0; i < stack.size; i++) {
-        if (strcmp(stack.array[i], "-") == 0) {
-            if (i == 0 || strcmp(stack.array[i - 1], "(") == 0) {
-                for (int j = i; j < stack.size; j++) {
-                    if (strcmp(stack.array[j], "^") == 0) {
-                        is_unary_minus = false;
-                        break;
-                    } else if (strcmp(stack.array[j], ")") == 0 || j == stack.size - 1) {
-                        is_unary_minus = true;
-                        break;
-                    }
-                }
-            }
-        }
-
-        strcpy(out.array[out.size - 1], stack.array[i]);
-        if (is_unary_minus) {
-            strcat(out.array[out.size - 1], stack.array[i + 1]);
-            i++;
-        }
-        out.size++;
-    }
-
-    free_token_array(&stack);
-    return out;
+    return stack;
 }
 
 static bool is_operator(char character)
