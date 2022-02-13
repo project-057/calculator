@@ -46,12 +46,39 @@ SUITE(whitespace_cleaner_suit)
 
 TEST split_to_tokens_should_split_to_tokens(void)
 {
-    char test1[] = "";
-    char test2[] = "1 + 2";
-    char test3[] = "3 - 3*3";
-    char test4[] = "2 + var - ";
-    char test5[] = "";
+    char tests[6][MAX_LENGTH] = {
+        "",
+        "1 + 2",
+        "3 - 3*3",
+        "2 + var -",
+        "2*(7+exp(2^12.2 + 123)-12.7777+pow(12,var2))",
+        "2*(7+exp(2^12.2 + 123)-12.7777+pow(12,var2))/27.7-12.0"
+    };
+    
+    char expects[6][MAX_LENGTH][MAX_LENGTH] = {
+        {""},
+        {"1","+","2"},
+        {"3", "-", "3", "*", "3"},
+        {"2", "+", "var","-"},
+        {"2","*","(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")"},
+        {"2","*","(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0"},
+    };
 
+    for (int i = 0; i < 6; i++) {
+        TokenArray getted = split_to_tokens(tests[i]);
+        for (int j = 0; j < getted.size; j++) {
+            ASSERT_STR_EQ(expects[i][j], getted.array[j]);
+        }
+        free_token_array(&getted);
+    }
+
+    PASS();
+
+}
+
+SUITE(split_to_tokens_suit)
+{
+    RUN_TEST(split_to_tokens_should_split_to_tokens);
 }
 
 
@@ -62,5 +89,6 @@ int main(int argc, char **argv)
 	GREATEST_MAIN_BEGIN();
 	RUN_SUITE(is_double_suit);
 	RUN_SUITE(whitespace_cleaner_suit);
+    RUN_SUITE(split_to_tokens_suit);
 	GREATEST_MAIN_END();
 }
