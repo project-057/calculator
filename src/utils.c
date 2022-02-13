@@ -38,13 +38,14 @@ void whitespace_cleaner(char* str)
 bool is_double(char* str)
 {
     unsigned i = 0;
+	unsigned length = strlen(str);
     int dec_count = 0;
 
-    if (strlen(str) == 0)
+    if (length == 0)
         return false;
 
     if (*str == '-') {
-        if (strlen(str) == 1)
+        if (length == 1)
             return false;
         i++;
     }
@@ -52,9 +53,9 @@ bool is_double(char* str)
     if (str[i] == '.')
         return false;
 
-    for (; i < strlen(str); i++) {
+    for (; i < length; i++) {
         if (str[i] == '.') {
-            if (dec_count > 0)
+            if (dec_count > 0 || !isdigit(str[i+1]))
                 return false;
             dec_count++;
         } else if (!isdigit(str[i]))
