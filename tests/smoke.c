@@ -64,10 +64,11 @@ TEST split_to_tokens_should_split_to_tokens(void)
         {"2","*","(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0"},
     };
 
-    for (int i = 0; i < 6; i++) {
-        TokenArray getted = split_to_tokens(tests[i]);
+    for (int test_index = 0; test_index < 6; test_index++) {
+        TokenArray getted = split_to_tokens(tests[test_index]);
         for (int j = 0; j < getted.size; j++) {
-            ASSERT_STR_EQ(expects[i][j], getted.array[j]);
+            ASSERT_STR_EQ(expects[test_index][j], getted.array[j]);
+            printf("TEST NUMBER %d, EXPECTED \"%s\", GOT \"%s\"", test_index, expects[test_index], getted.array[j]);
         }
         free_token_array(&getted);
     }
