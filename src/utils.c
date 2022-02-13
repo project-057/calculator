@@ -31,7 +31,7 @@ static bool is_character_changed(char character)
     SplitMode previous = split_mode;
     char operators[] = "+-/*^()";
 
-    if (isalpha(character)) {
+    if (isalpha(character) || (previous == SM_WORD && isdigit(character))) {
         split_mode = SM_WORD;
     } else if (isdigit(character) || character == '.') {
         split_mode = SM_VALUE;
