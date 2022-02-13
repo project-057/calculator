@@ -50,13 +50,14 @@ static bool is_token_type_changed(char character, int index)
     } else {
         token_type = TT_NONE;
     }
-    
+
     previous_character = character;
 
     return token_type != previous;
 }
 
-static void reset_statics() {
+static void reset_statics()
+{
     is_token_type_changed('\0', -1);
 }
 
@@ -76,7 +77,7 @@ TokenArray split_to_tokens(char* infix_expr)
 
         stack.array[stack.size - 1][current_token_size++] = infix_expr[i];
     }
-    
+
     /* Checking to unary minus */
     TokenArray out = create_token_array();
     bool is_unary_minus = false;
@@ -85,7 +86,7 @@ TokenArray split_to_tokens(char* infix_expr)
         if (strcmp(stack.array[i], "-") == 0) {
             if (i == 0) {
                 is_unary_minus = true;
-            } else if (strcmp(stack.array[i-1], "(") == 0) {
+            } else if (strcmp(stack.array[i - 1], "(") == 0) {
                 for (int j = i + 1; j < stack.size; j++) {
                     if (strcmp(stack.array[i], "^") == 0) {
                         is_unary_minus = false;
@@ -100,13 +101,13 @@ TokenArray split_to_tokens(char* infix_expr)
             }
         }
 
-        strcpy(out.array[out.size-1], stack.array[i]);
-        if(is_unary_minus) {
-            strcat(out.array[out.size-1], stack.array[i+1]);
+        strcpy(out.array[out.size - 1], stack.array[i]);
+        if (is_unary_minus) {
+            strcat(out.array[out.size - 1], stack.array[i + 1]);
         }
         out.size++;
         i++;
-    } 
+    }
 
     free_token_array(&stack);
     return out;
