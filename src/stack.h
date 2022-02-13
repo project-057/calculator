@@ -1,3 +1,5 @@
+#pragma once
+
 typedef struct stack_entry {
     char* data;
     struct stack_entry* next;
