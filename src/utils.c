@@ -76,6 +76,8 @@ TokenArray split_to_tokens(char* infix_expr)
         }
         if (infix_expr[i] == '-' && (i == 0 || infix_expr[i-1] == '(')) {
             stack.array[stack.size - 1][current_token_size++] = '0';
+            stack.size++;
+            current_token_size = 0;
         }
         stack.array[stack.size - 1][current_token_size++] = infix_expr[i];
     }
