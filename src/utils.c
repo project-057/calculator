@@ -53,7 +53,8 @@ bool is_function(char* str)
 
 TokenArray to_rpn(TokenArray infix_expr)
 {
-    stack_t* stack = create_stack();
+    Stack* stack = create_stack();
+
     TokenArray postfix_expr = {
         .array = calloc(MAX_LENGTH, sizeof postfix_expr),
         .size = 0

@@ -3,9 +3,9 @@
 
 #include "stack.h"
 
-stack_t* create_stack(void)
+Stack* create_stack(void)
 {
-    stack_t* stack = malloc(sizeof *stack);
+    Stack* stack = malloc(sizeof *stack);
     if (stack) {
         stack->head = NULL;
         stack->stackSize = 0;
@@ -21,7 +21,7 @@ char* copy_string_t(const char* str)
     return tmp;
 }
 
-void push(stack_t* stack, char* value)
+void push(Stack* stack, char* value)
 {
     stack_entry* entry = malloc(sizeof *entry);
     if (entry) {
@@ -32,7 +32,7 @@ void push(stack_t* stack, char* value)
     }
 }
 
-char* top(stack_t* stack)
+char* top(Stack* stack)
 {
     if (stack && stack->head)
         return stack->head->data;
@@ -40,7 +40,7 @@ char* top(stack_t* stack)
         return NULL;
 }
 
-char* pop(stack_t* stack)
+char* pop(Stack* stack)
 {
     char* top_element = top(stack);
     if (stack->head != NULL) {
@@ -50,13 +50,13 @@ char* pop(stack_t* stack)
     return top_element;
 }
 
-void clear(stack_t* stack)
+void clear(Stack* stack)
 {
     while (stack->head != NULL)
         pop(stack);
 }
 
-void delete_stack(stack_t** stack)
+void delete_stack(Stack** stack)
 {
     clear(*stack);
     free(*stack);

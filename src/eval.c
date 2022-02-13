@@ -8,7 +8,7 @@
 double eval(TokenArray rpn_expr)
 {
     double result;
-    stack_t* stack = create_stack();
+    Stack* stack = create_stack();
     char* endptr; /* strtod stuff */
 
     for (int i = 0; i < rpn_expr.size; i++) {
