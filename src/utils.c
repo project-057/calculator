@@ -84,7 +84,7 @@ TokenArray split_to_tokens(char* infix_expr)
 
     for (int i = 0; i < stack.size; i++) {
         if (strcmp(stack.array[i], "-") == 0) {
-            if (i == 0 || stack.array[i - 1] == "(") {
+            if (i == 0 || strcmp(stack.array[i - 1], "(") == 0) {
                 for (int j = i; j < stack.size; j++) {
                     if (strcmp(stack.array[j], "^") == 0) {
                         is_unary_minus = false;
