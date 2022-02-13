@@ -14,7 +14,6 @@ TEST is_double_should_mark_doubles_test(void)
 
 TEST is_double_shouldnt_mark_incorrect_doubles_test(void)
 {
-	SKIP();
 	ASSERT_FALSE(is_double(""));
 	ASSERT_FALSE(is_double("-0."));
 	ASSERT_FALSE(is_double("-"));
