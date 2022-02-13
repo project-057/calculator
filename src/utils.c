@@ -85,7 +85,7 @@ static int operations_priority(char first_opr, char second_opr)
 
 void whitespace_cleaner(char* str)
 {
-	int len = strlen(str);
+    int len = strlen(str);
     int j = 0;
     for (int i = 0; i < len; i++) {
         if (str[i] != ' ') {
