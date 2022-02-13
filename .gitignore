@@ -1,6 +1,8 @@
 # binary of our project
 /calculator
+/test_smoke
 *.exe
 
 # trash of MacOS
 .DS_Store
+*.dSYM
