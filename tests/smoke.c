@@ -46,25 +46,32 @@ SUITE(whitespace_cleaner_suit)
 
 TEST split_to_tokens_should_split_to_tokens(void)
 {
-    char tests[6][MAX_LENGTH] = {
+#define COUNT_OF_TESTS 9 
+    char tests[COUNT_OF_TESTS][MAX_LENGTH] = {
         "",
         "1 + 2",
         "3 - 3*3",
         "2 + var -",
         "2*(7+exp(2^12.2 + 123)-12.7777+pow(12,var2))",
-        "2*(7+exp(2^12.2 + 123)-12.7777+pow(12,var2))/27.7-12.0"
+        "2*(7+exp(2^12.2 + 123)-12.7777+pow(12,var2))/27.7-12.0",
+        "-1*(7+exp(2^12.2 + 123)-12.7777+pow(12,var2))/27.7-12.0",
+        "-1*(7+exp(-2^12.2 + 123)-12.7777+pow(12,var2))/27.7-12.0",
+        "(-1)*(7+exp(-2^12.2 + 123)-12.7777+pow(12,var2))/27.7-12.0"
     };
     
-    char expects[6][MAX_LENGTH][MAX_LENGTH] = {
+    char expects[COUNT_OF_TESTS][MAX_LENGTH][MAX_LENGTH] = {
         {""},
         {"1","+","2"},
         {"3", "-", "3", "*", "3"},
         {"2", "+", "var","-"},
         {"2","*","(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")"},
         {"2","*","(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0"},
+        {"-1","*","(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0"},
+        {"-1","*","(", "7", "+", "exp", "(", "-", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0"},
+        {"(", "-1", ")","*","(", "7", "+", "exp", "(", "-", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0"}
     };
 
-    for (int test_index = 0; test_index < 6; test_index++) {
+    for (int test_index = 0; test_index < COUNT_OF_TESTS; test_index++) {
         TokenArray getted = split_to_tokens(tests[test_index]);
         for (int j = 0; j < getted.size; j++) {
             ASSERT_STR_EQ(expects[test_index][j], getted.array[j]);

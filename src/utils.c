@@ -9,11 +9,11 @@
 #include "utils.h"
 
 typedef enum {
-    SM_NONE,
-    SM_WORD,
-    SM_OPERATOR,
-    SM_VALUE
-} SplitMode;
+    TT_NONE,
+    TT_WORD,
+    TT_OPERATOR,
+    TT_VALUE
+} TokenType;
 
 static bool in(char* array, char value)
 {
@@ -25,24 +25,39 @@ static bool in(char* array, char value)
     return false;
 }
 
-static bool is_character_changed(char character)
+/* To reset statics inside put to the argument -1 or call reset_statics() function  */
+static bool is_token_type_changed(char character, int index)
 {
-    static SplitMode split_mode = SM_NONE;
-    SplitMode previous = split_mode;
-    char operators[] = "+-/*^()";
+    static char previous_character = '\0';
+    static TokenType token_type = TT_NONE;
 
-    if (isalpha(character) || (previous == SM_WORD && isdigit(character))) {
-        split_mode = SM_WORD;
-    } else if (isdigit(character) || character == '.') {
-        split_mode = SM_VALUE;
-    } else if (in(operators, character)) {
-        split_mode = SM_OPERATOR;
-        return true;
-    } else {
-        split_mode = SM_NONE;
+    if (index == -1) {
+        previous_character = '\0';
+        token_type = TT_NONE;
     }
 
-    return split_mode != previous;
+    TokenType previous = token_type;
+    char operators[] = "+-/*^()";
+
+    if (isalpha(character) || (previous == TT_WORD && isdigit(character))) {
+        token_type = TT_WORD;
+    } else if (isdigit(character) || character == '.') {
+        token_type = TT_VALUE;
+    } else if (in(operators, character)) {
+        token_type = TT_OPERATOR;
+        previous_character = character;
+        return true;
+    } else {
+        token_type = TT_NONE;
+    }
+    
+    previous_character = character;
+
+    return token_type != previous;
+}
+
+static void reset_statics() {
+    is_token_type_changed('\0', -1);
 }
 
 TokenArray split_to_tokens(char* infix_expr)
@@ -54,15 +69,47 @@ TokenArray split_to_tokens(char* infix_expr)
     bool changed = false;
 
     for (int i = 0; i < len; ++i) {
-        if (is_character_changed(infix_expr[i]) && current_token_size != 0) {
+        if (is_token_type_changed(infix_expr[i], i) && current_token_size != 0) {
             stack.size++;
             current_token_size = 0;
         }
 
         stack.array[stack.size - 1][current_token_size++] = infix_expr[i];
     }
+    
+    /* Checking to unary minus */
+    TokenArray out = create_token_array();
+    bool is_unary_minus = false;
 
-    return stack;
+    for (int i = 0; i < stack.size; i++) {
+        if (strcmp(stack.array[i], "-") == 0) {
+            if (i == 0) {
+                is_unary_minus = true;
+            } else if (strcmp(stack.array[i-1], "(") == 0) {
+                for (int j = i + 1; j < stack.size; j++) {
+                    if (strcmp(stack.array[i], "^") == 0) {
+                        is_unary_minus = false;
+                        break;
+                    } else if (strcmp(stack.array[i], ")") == 0) {
+                        is_unary_minus = true;
+                        break;
+                    } else if (j == stack.size - 1) {
+                        is_unary_minus = true;
+                    }
+                }
+            }
+        }
+
+        strcpy(out.array[out.size-1], stack.array[i]);
+        if(is_unary_minus) {
+            strcat(out.array[out.size-1], stack.array[i+1]);
+        }
+        out.size++;
+        i++;
+    } 
+
+    free_token_array(&stack);
+    return out;
 }
 
 static bool is_operator(char character)
