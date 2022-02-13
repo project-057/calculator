@@ -68,7 +68,7 @@ TEST split_to_tokens_should_split_to_tokens(void)
         TokenArray getted = split_to_tokens(tests[test_index]);
         for (int j = 0; j < getted.size; j++) {
             ASSERT_STR_EQ(expects[test_index][j], getted.array[j]);
-            printf("TEST NUMBER %d, EXPECTED \"%s\", GOT \"%s\"\n", test_index, expects[test_index][j], getted.array[j]);
+            // printf("TEST NUMBER %d, EXPECTED \"%s\", GOT \"%s\"\n", test_index, expects[test_index][j], getted.array[j]);
         }
         free_token_array(&getted);
     }
