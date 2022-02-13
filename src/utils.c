@@ -155,7 +155,7 @@ TokenArray to_rpn(TokenArray infix_expr)
             int priority = -1;
 
             if (top(stack) != NULL)
-                 priority = operations_priority(*top(stack), first_char);
+                priority = operations_priority(*top(stack), first_char);
 
             bool left_associative = is_left_associative(first_char);
 
@@ -164,7 +164,7 @@ TokenArray to_rpn(TokenArray infix_expr)
                 strcpy(postfix_expr.array[j++], pop(stack));
                 priority = operations_priority(*top(stack), first_char);
                 puts(top(stack));
-                printf("%c\n",first_char);
+                printf("%c\n", first_char);
                 printf("%d", priority);
                 left_associative = is_left_associative(first_char);
             }
