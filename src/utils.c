@@ -48,12 +48,9 @@ static bool is_character_changed(char character)
 TokenArray split_to_tokens(char* infix_expr)
 {
     whitespace_cleaner(infix_expr);
-
     TokenArray stack = create_token_array();
-
     int len = strlen(infix_expr);
     int current_token_size = 0;
-
     bool changed = false;
 
     for (int i = 0; i < len; ++i) {
@@ -61,7 +58,6 @@ TokenArray split_to_tokens(char* infix_expr)
             stack.size++;
             current_token_size = 0;
         }
-        assert(current_token_size + 1 < MAX_TOKEN_LENGTH);
 
         stack.array[stack.size - 1][current_token_size++] = infix_expr[i];
     }
