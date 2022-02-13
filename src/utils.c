@@ -78,6 +78,8 @@ TokenArray split_to_tokens(char* infix_expr)
         stack.array[stack.size - 1][current_token_size++] = infix_expr[i];
     }
 
+    return stack;
+
     /* Checking to unary minus */
     TokenArray out = create_token_array();
     bool is_unary_minus = false;
