@@ -28,24 +28,21 @@ static bool in(char* array, char value)
 static bool is_character_changed(char character)
 {
     static SplitMode split_mode = SM_NONE;
+    SplitMode previous = split_mode;
     char operators[] = "+-/*^()";
-    bool changed;
 
     if (isalpha(character)) {
-        changed = split_mode != SM_WORD;
         split_mode = SM_WORD;
     } else if (isdigit(character) || character == '.') {
-        changed = split_mode != SM_VALUE;
         split_mode = SM_VALUE;
     } else if (in(operators, character)) {
-        changed = true;
         split_mode = SM_OPERATOR;
+        return true;
     } else {
-        changed = split_mode != SM_NONE;
         split_mode = SM_NONE;
     }
 
-    return changed;
+    return split_mode != previous;
 }
 
 TokenArray split_to_tokens(char* infix_expr)
@@ -142,31 +139,36 @@ bool is_function(char* str)
 TokenArray to_rpn(TokenArray infix_expr)
 {
     stack_t* stack = create_stack();
-    TokenArray postfix_expr = {
-        .array = calloc(MAX_LENGTH, sizeof postfix_expr),
-        .size = 0
-    };
-
-    for (int i = 0; i < MAX_LENGTH; i++) {
-        postfix_expr.array[i] = calloc(MAX_LENGTH, sizeof(char*));
-    }
+    TokenArray postfix_expr = create_token_array();
+    postfix_expr.size = 0;
 
     int j = 0;
 
+    puts("-------");
     for (int i = 0; i < infix_expr.size; i++) {
         char first_char = infix_expr.array[i][0];
 
         if (is_double(infix_expr.array[i]) || is_function(infix_expr.array[i])) {
+            puts(infix_expr.array[i]);
             strcpy(postfix_expr.array[j++], infix_expr.array[i]);
         } else if (is_operator(first_char)) {
-            int priority = operations_priority(*top(stack), first_char);
+            int priority = -1;
+
+            if (top(stack) != NULL)
+                 priority = operations_priority(*top(stack), first_char);
+
             bool left_associative = is_left_associative(first_char);
 
+            puts(infix_expr.array[i]);
             while (top(stack) != NULL && *top(stack) != '(' && (priority == 1 || (priority == 0 && left_associative))) {
                 strcpy(postfix_expr.array[j++], pop(stack));
                 priority = operations_priority(*top(stack), first_char);
+                puts(top(stack));
+                printf("%c\n",first_char);
+                printf("%d", priority);
                 left_associative = is_left_associative(first_char);
             }
+            puts("=============");
             push(stack, infix_expr.array[i]);
         } else if (first_char == '(') {
             push(stack, "(");
@@ -175,8 +177,10 @@ TokenArray to_rpn(TokenArray infix_expr)
             while (*strcpy(tmp, pop(stack)) != '(') {
                 strcpy(postfix_expr.array[j++], tmp);
             }
+            free(tmp);
         }
     }
+    puts("-------");
 
     while (top(stack) != NULL) {
         strcpy(postfix_expr.array[j++], pop(stack));
