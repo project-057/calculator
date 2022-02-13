@@ -44,6 +44,18 @@ SUITE(whitespace_cleaner_suit)
 	RUN_TEST(whitespace_cleaner_should_remove_whitespaces);
 }
 
+TEST split_to_tokens_should_split_to_tokens(void)
+{
+    char test1[] = "";
+    char test2[] = "1 + 2";
+    char test3[] = "3 - 3*3";
+    char test4[] = "2 + var - ";
+    char test5[] = "";
+
+}
+
+
+
 GREATEST_MAIN_DEFS();
 int main(int argc, char **argv)
 {
