@@ -51,7 +51,6 @@ TokenArray split_to_tokens(char* infix_expr)
     TokenArray stack = create_token_array();
     int len = strlen(infix_expr);
     int current_token_size = 0;
-    bool changed = false;
 
     for (int i = 0; i < len; ++i) {
         if (is_character_changed(infix_expr[i]) && current_token_size != 0) {
