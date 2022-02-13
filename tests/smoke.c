@@ -47,7 +47,7 @@ SUITE(whitespace_cleaner_suit)
 TEST split_to_tokens_should_split_to_tokens(void)
 {
     char tests[6][MAX_LENGTH] = {
-        //"",
+        "",
         "1 + 2",
         "3 - 3*3",
         "2 + var -",
