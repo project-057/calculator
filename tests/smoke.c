@@ -46,7 +46,7 @@ SUITE(whitespace_cleaner_suit)
 
 TEST split_to_tokens_should_split_to_tokens(void)
 {
-#define COUNT_OF_TESTS 9 
+    enum {COUNT_OF_TESTS = 9};
     char tests[COUNT_OF_TESTS][MAX_LENGTH] = {
         "",
         "1 + 2",
@@ -74,7 +74,6 @@ TEST split_to_tokens_should_split_to_tokens(void)
     for (int test_index = 0; test_index < COUNT_OF_TESTS; test_index++) {
         TokenArray getted = split_to_tokens(tests[test_index]);
         for (int j = 0; j < getted.size; j++) {
-            // printf("TEST NUMBER %d, EXPECTED \"%s\", GOT \"%s\"\n", test_index, expects[test_index][j], getted.array[j]);
             ASSERT_STR_EQ(expects[test_index][j], getted.array[j]);
         }
         free_token_array(&getted);
@@ -88,8 +87,6 @@ SUITE(split_to_tokens_suit)
 {
     RUN_TEST(split_to_tokens_should_split_to_tokens);
 }
-
-
 
 GREATEST_MAIN_DEFS();
 int main(int argc, char **argv)
