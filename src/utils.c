@@ -37,12 +37,30 @@ void whitespace_cleaner(char* str)
 
 bool is_double(char* str)
 {
-    if (strlen(str) == 1 && str[0] == '-')
+    unsigned i = 0;
+    int dec_count = 0;
+
+    if (strlen(str) == 0)
         return false;
-    for (int i = 0; str[i] != '\0'; i++) {
-        if (!isdigit(str[i]) && str[i] != '-' && str[i] != '.')
+
+    if (*str == '-') {
+        if (strlen(str) == 1)
+            return false;
+        i++;
+    }
+
+    if (str[i] == '.')
+        return false;
+
+    for (; i < strlen(str); i++) {
+        if (str[i] == '.') {
+            if (dec_count > 0)
+                return false;
+            dec_count++;
+        } else if (!isdigit(str[i]))
             return false;
     }
+
     return true;
 }
 
