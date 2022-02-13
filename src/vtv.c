@@ -15,7 +15,7 @@ TokenArray variables_to_values(TokenArray tokens, Variable* vars_array, int var_
         if ((tokens.array[i][0] >= 'a' && tokens.array[i][0] <= 'z') || (tokens.array[i][0] >= 'A' && tokens.array[i][0] <= 'Z')) {
             for (int j = 0; j < var_size; j++) {
                 if (strcmp(tokens.array[i], vars_array[j].name) == 0) {
-                    sprintf(out_arr[i], "%.9f", vars_array[j].value);
+                    sprintf(out_arr[i], "(%.9f)", vars_array[j].value);
                     break;
                 }
             }
