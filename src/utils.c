@@ -92,6 +92,7 @@ TokenArray to_rpn(TokenArray infix_expr)
             while (*strcpy(tmp, pop(stack)) != '(') {
                 strcpy(postfix_expr.array[(*j)++], tmp);
             }
+            free(tmp);
         }
     }
 
