@@ -253,7 +253,7 @@ int main(int argc, char** argv)
     RUN_SUITE(is_double_suit);
     RUN_SUITE(whitespace_cleaner_suit);
     RUN_SUITE(split_to_tokens_suit);
-    RUN_SUITE(eval_suit);
     RUN_SUITE(vtv_test_suit);
+    RUN_SUITE(eval_suit);
     GREATEST_MAIN_END();
 }
