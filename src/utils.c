@@ -201,3 +201,28 @@ TokenArray to_rpn(TokenArray infix_expr)
     delete_stack(&stack);
     return postfix_expr;
 }
+
+void get_variables(char* expression, Variable* variables)
+{
+    char* variable_request = "Write a variable with its value or press \033[0;33m<C-d>\033[0m to stop (e.g. x = 1.0)\033[0m";
+    char* line = calloc(MAX_LENGTH, sizeof *line);
+
+    init_variable(variables);
+
+    puts("Write a math expression: ");
+    fgets(expression, MAX_LENGTH, stdin);
+
+    puts(variable_request);
+    for (int counter = 0; fgets(line, MAX_LENGTH, stdin); counter++) {
+        whitespace_cleaner(line);
+
+        char* token = strtok(line, "="); /* divide line by '=' symbol */
+        char* endptr; /* for strtod stuff */
+
+        strcpy(variables[counter].name, token); /* add variable name to the Varibale structure */
+
+        token = strtok(NULL, "="); /* go to the next part of our devided string */
+
+        variables[counter].value = strtod(token, &endptr); /* add value to the Variable structure */
+    }
+}
