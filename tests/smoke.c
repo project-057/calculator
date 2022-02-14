@@ -218,10 +218,10 @@ TEST variables_to_values_should_replace_variables_to_values()
     // };
 
     char expects[COUNT_OF_TESTS][MAX_LENGTH][MAX_LENGTH] = {
-        { "1", "-", "-2.000000000" },
-        { "1", "+", "-3.000000000" },
-        { "3", "-", "-2.000000000", "*", "3" },
-        { "2", "+", "-100.000000000", "-" },
+        { "1", "-", "-2" },
+        { "1", "+", "-3" },
+        { "3", "-", "-2", "*", "3" },
+        { "2", "+", "-100", "-" },
         { "2", "*", "(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "3.14", ")", ")" },
         { "2", "*", "(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "1.0", "(", "12", ",", "354", ")", ")", "/", "27.7", "-", "12.0" },
         { "0", "-", "1", "*", "(", "7", "+", "2.78", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "2.0", ")", ")", "/", "27.7", "-", "12.0" },
@@ -236,7 +236,13 @@ TEST variables_to_values_should_replace_variables_to_values()
         TokenArray got = variables_to_values(test, tests_vars[test_index], tests_var_sizes[test_index]);
 
         for (int i = 0; i < got.size; i++) {
-            ASSERT_STR_EQ(expects[test_index][i], got.array[i]);
+            if (is_double(expects[test_index][i])) {
+                double exp_double = strtod(expects[test_index][i]);
+                double got_double = strtod(got.array[i]);
+                ASSERT_IN_RANGE(exp_double, got_double, 0.00001);
+            } else {
+                ASSERT_STR_EQ(expects[test_index][i], got.array[i]);
+            }
         }
 
         free_token_array(&test);
