@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "../src/utils.h"
+#include "../src/eval.h"
 
 #include "greatest.h"
 
@@ -23,11 +24,7 @@ TEST is_double_shouldnt_mark_incorrect_doubles_test(void)
 	PASS();
 }
 
-SUITE(is_double_suit)
-{
-	RUN_TEST(is_double_should_mark_doubles_test);
-	RUN_TEST(is_double_shouldnt_mark_incorrect_doubles_test);
-}
+SUITE(is_double_suit) { RUN_TEST(is_double_should_mark_doubles_test); RUN_TEST(is_double_shouldnt_mark_incorrect_doubles_test); }
 
 TEST whitespace_cleaner_should_remove_whitespaces(void)
 {
@@ -89,6 +86,38 @@ SUITE(split_to_tokens_suit)
     RUN_TEST(split_to_tokens_should_split_to_tokens);
 }
 
+TEST eval_should_count_correct(void) {
+	TokenArray tests_in_rpn[5];
+
+	char tests[5][MAX_LENGTH] = {
+		"10 + 5", "2 * 128 / 2",
+		"5 / 0", "214.4 * 4.7 + (32.11 / 2)",
+		"128 + 4.45 * (- 2.42 - 3.01 ) ^ 2 ^ 3"
+	};
+	for (int i = 0; i < 5; i++) {
+		tests_in_rpn[i] = to_rpn(split_to_tokens(tests[i]));
+	}
+
+	double correct_answ[5] = {
+		15,
+		128,
+		-999999,
+		1023.735,
+		3363374.10333	
+	};
+
+	for (int i = 0; i < 5; i++) {
+		ASSERT_IN_RANGE(correct_answ[i], eval(tests_in_rpn[i]), 0.01);
+	}
+
+	PASS();
+}
+
+SUITE(eval_suit)
+{
+    RUN_TEST(eval_should_count_correct);
+}
+
 GREATEST_MAIN_DEFS();
 int main(int argc, char **argv)
 {
@@ -96,5 +125,6 @@ int main(int argc, char **argv)
 	RUN_SUITE(is_double_suit);
 	RUN_SUITE(whitespace_cleaner_suit);
     RUN_SUITE(split_to_tokens_suit);
+    RUN_SUITE(eval_suit);
 	GREATEST_MAIN_END();
 }
