@@ -23,9 +23,9 @@ TokenArray variables_to_values(TokenArray tokens, Variable* vars_array, int var_
         }
     }
 
-	TokenArray result = {
-		.array = out1,
-		.size = tokens.size
-	};
+    TokenArray result = {
+        .array = out1,
+        .size = tokens.size
+    };
     return result;
 }
