@@ -24,7 +24,10 @@ TEST is_double_shouldnt_mark_incorrect_doubles_test(void)
 	PASS();
 }
 
-SUITE(is_double_suit) { RUN_TEST(is_double_should_mark_doubles_test); RUN_TEST(is_double_shouldnt_mark_incorrect_doubles_test); }
+SUITE(is_double_suit) { 
+	RUN_TEST(is_double_should_mark_doubles_test); 
+	RUN_TEST(is_double_shouldnt_mark_incorrect_doubles_test); 
+}
 
 TEST whitespace_cleaner_should_remove_whitespaces(void)
 {
@@ -78,7 +81,6 @@ TEST split_to_tokens_should_split_to_tokens(void)
     }
 
     PASS();
-
 }
 
 SUITE(split_to_tokens_suit)
@@ -86,12 +88,12 @@ SUITE(split_to_tokens_suit)
     RUN_TEST(split_to_tokens_should_split_to_tokens);
 }
 
-TEST eval_should_count_correct(void) {
-
+TEST eval_should_count_correct(void) 
+{
 	char tests[5][MAX_LENGTH] = {
 		"10 + 5",
 		"2 * 128 / 2",
-		"5 / 0", 
+		"5 / 0",
 		"214.4 * 4.7 + (32.11 / 2)",
 		"128 + 4.45 * (- 2.42 - 3.01 ) ^ 2 ^ 3"
 	};
@@ -107,7 +109,7 @@ TEST eval_should_count_correct(void) {
 		128,
 		INFINITY,
 		1023.735,
-		3363374.10333	
+		3363374.10333
 	};
 
 	ASSERT_IN_RANGE(correct_answ[0], eval(first_test), 0.01);
