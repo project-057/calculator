@@ -43,7 +43,6 @@ static bool is_token_type_changed(char character)
     } else {
         token_type = TT_NONE;
     }
-
     return token_type != previous;
 }
 
@@ -189,6 +188,7 @@ TokenArray to_rpn(TokenArray infix_expr)
                     left_associative = is_left_associative(first_char);
                 }
             }
+
             push(stack, infix_expr.array[i]);
         } else if (first_char == '(') {
             push(stack, "(");
