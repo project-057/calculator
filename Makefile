@@ -20,11 +20,11 @@ $(BINARY): $(DEPS)
 
 .PHONY: isformatted
 isformatted: $(DEPS)
-	$(CLANG-FORMAT) -dry-run -Werror $(DEPS)
+	$(CLANG-FORMAT) -dry-run -Werror $(DEPS) $(TEST_DEPS)
 
 .PHONY: format
 format: $(DEPS)
-	$(CLANG-FORMAT) -i $(DEPS)
+	$(CLANG-FORMAT) -i $(DEPS) $(TEST_DEPS)
 
 .PHONY: clean
 clean:
