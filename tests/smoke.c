@@ -68,8 +68,6 @@ TEST to_rpn_should_transform_token_array_to_reverse_polish_notation(void)
 		ASSERT_STR_EQ(correct_answ[i], postfix_expr.array[i]);
 	}
 
-	free_token_array(&postfix_expr);
-
 	PASS();
 }
 
