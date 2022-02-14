@@ -18,9 +18,9 @@ int main(void)
     int var_size = 0;
     while (variables[var_size++].name[0]) { }
 
-    infix_expr = variables_to_values(infix_expr, variables, var_size - 1);
+    TokenArray new_infix_expr = variables_to_values(infix_expr, variables, var_size - 1);
 
-    TokenArray postfix_expr = to_rpn(infix_expr);
+    TokenArray postfix_expr = to_rpn(new_infix_expr);
     double result = eval(postfix_expr);
 
     printf("Result: \e[1;32m%f\033[0m\n", result);
