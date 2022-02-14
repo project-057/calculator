@@ -6,6 +6,8 @@
 
 #include "greatest.h"
 
+const double EPS = 1e-5;
+
 TEST is_double_should_mark_doubles_test(void)
 {
     ASSERT(is_double("123"));
@@ -146,11 +148,11 @@ TEST eval_should_count_correct(void)
         3363374.10333
     };
 
-    ASSERT_IN_RANGE(correct_answ[0], eval(first_test), 0.01);
-    ASSERT_IN_RANGE(correct_answ[1], eval(second_test), 0.01);
-    ASSERT_IN_RANGE(correct_answ[2], eval(third_test), 0.01);
-    ASSERT_IN_RANGE(correct_answ[3], eval(fourth_test), 0.01);
-    ASSERT_IN_RANGE(correct_answ[4], eval(fifth_test), 0.01);
+    ASSERT_IN_RANGE(correct_answ[0], eval(first_test), EPS);
+    ASSERT_IN_RANGE(correct_answ[1], eval(second_test), EPS);
+    ASSERT_IN_RANGE(correct_answ[2], eval(third_test), EPS);
+    ASSERT_IN_RANGE(correct_answ[3], eval(fourth_test), EPS);
+    ASSERT_IN_RANGE(correct_answ[4], eval(fifth_test), EPS);
 
     free_token_array(&first_test);
     free_token_array(&second_test);
@@ -226,7 +228,7 @@ TEST variables_to_values_should_replace_variables_to_values()
                 char* end_ptr;
                 double exp_double = strtod(expects[test_index][i], &end_ptr);
                 double got_double = strtod(got.array[i], &end_ptr);
-                ASSERT_IN_RANGE(exp_double, got_double, 0.00001);
+                ASSERT_IN_RANGE(exp_double, got_double, EPS);
             } else {
                 ASSERT_STR_EQ(expects[test_index][i], got.array[i]);
             }
