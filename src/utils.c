@@ -26,15 +26,9 @@ static bool in(char* array, char value)
 }
 
 /* To reset statics inside put to the argument -1 or call reset_statics() function  */
-static bool is_token_type_changed(char character, int index)
+static bool is_token_type_changed(char character)
 {
-    static char previous_character = '\0';
     static TokenType token_type = TT_NONE;
-
-    if (index == -1) {
-        previous_character = '\0';
-        token_type = TT_NONE;
-    }
 
     TokenType previous = token_type;
     char operators[] = "+-/*^()";
@@ -45,20 +39,12 @@ static bool is_token_type_changed(char character, int index)
         token_type = TT_VALUE;
     } else if (in(operators, character)) {
         token_type = TT_OPERATOR;
-        previous_character = character;
         return true;
     } else {
         token_type = TT_NONE;
     }
 
-    previous_character = character;
-
     return token_type != previous;
-}
-
-static void reset_statics()
-{
-    is_token_type_changed('\0', -1);
 }
 
 TokenArray split_to_tokens(char* infix_expr)
@@ -69,7 +55,7 @@ TokenArray split_to_tokens(char* infix_expr)
     int current_token_size = 0;
 
     for (int i = 0; i < len; ++i) {
-        if (is_token_type_changed(infix_expr[i], i) && current_token_size != 0) {
+        if (is_token_type_changed(infix_expr[i]) && current_token_size != 0) {
             stack.size++;
             current_token_size = 0;
         }
