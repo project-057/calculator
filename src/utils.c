@@ -158,17 +158,8 @@ bool is_function(char* str)
 
 TokenArray to_rpn(TokenArray infix_expr)
 {
+    TokenArray postfix_expr = create_token_array();
     Stack* stack = create_stack();
-
-    TokenArray postfix_expr = {
-        .array = calloc(MAX_LENGTH, sizeof postfix_expr),
-        .size = 0
-    };
-
-    for (int i = 0; i < MAX_LENGTH; i++) {
-        postfix_expr.array[i] = calloc(MAX_LENGTH, sizeof(char*));
-    }
-
     int* size = &postfix_expr.size;
 
     for (int i = 0; i < infix_expr.size; i++) {
@@ -207,5 +198,6 @@ TokenArray to_rpn(TokenArray infix_expr)
         strcpy(postfix_expr.array[(*size)++], pop(stack));
     }
     delete_stack(&stack);
+    free_token_array(&postfix_expr);
     return postfix_expr;
 }
