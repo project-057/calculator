@@ -50,6 +50,7 @@ TokenArray split_to_tokens(char* infix_expr)
 {
     whitespace_cleaner(infix_expr);
     TokenArray stack = create_token_array();
+    stack.size++;
     int len = strlen(infix_expr);
     int current_token_size = 0;
 
@@ -59,7 +60,7 @@ TokenArray split_to_tokens(char* infix_expr)
             current_token_size = 0;
         }
         if (infix_expr[i] == '-' && (i == 0 || infix_expr[i - 1] == '(')) {
-            stack.array[stack.size - 1][current_token_size++] = '0';
+            stack.array[stack.size - 1][current_token_size] = '0';
             stack.size++;
             current_token_size = 0;
         }
@@ -134,7 +135,7 @@ TokenArray create_token_array()
 {
     TokenArray out = {
         .array = calloc(MAX_LENGTH, sizeof(char*)),
-        .size = 1
+        .size = 0
     };
     for (int i = 0; i < MAX_LENGTH; i++) {
         out.array[i] = calloc(MAX_TOKEN_LENGTH, sizeof(char));
@@ -198,6 +199,6 @@ TokenArray to_rpn(TokenArray infix_expr)
         strcpy(postfix_expr.array[(*size)++], pop(stack));
     }
     delete_stack(&stack);
-    free_token_array(&postfix_expr);
+    // free_token_array(&postfix_expr);
     return postfix_expr;
 }

@@ -1,84 +1,87 @@
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
+#include "../src/eval.h"
 #include "../src/utils.h"
 
 #include "greatest.h"
 
 TEST is_double_should_mark_doubles_test(void)
 {
-	ASSERT(is_double("123"));
-	ASSERT(is_double("123.456"));
-	ASSERT(is_double("-0.7"));
-	PASS();
+    ASSERT(is_double("123"));
+    ASSERT(is_double("123.456"));
+    ASSERT(is_double("-0.7"));
+    PASS();
 }
 
 TEST is_double_shouldnt_mark_incorrect_doubles_test(void)
 {
-	ASSERT_FALSE(is_double(""));
-	ASSERT_FALSE(is_double("-0."));
-	ASSERT_FALSE(is_double("-"));
-	ASSERT_FALSE(is_double("12three4"));
-	ASSERT_FALSE(is_double("127.0.0.1"));
-	PASS();
+    ASSERT_FALSE(is_double(""));
+    ASSERT_FALSE(is_double("-0."));
+    ASSERT_FALSE(is_double("-"));
+    ASSERT_FALSE(is_double("12three4"));
+    ASSERT_FALSE(is_double("127.0.0.1"));
+    PASS();
 }
 
 SUITE(is_double_suit)
 {
-	RUN_TEST(is_double_should_mark_doubles_test);
-	RUN_TEST(is_double_shouldnt_mark_incorrect_doubles_test);
+    RUN_TEST(is_double_should_mark_doubles_test);
+    RUN_TEST(is_double_shouldnt_mark_incorrect_doubles_test);
 }
 
 TEST whitespace_cleaner_should_remove_whitespaces(void)
 {
-	char arg[] = "1+ 2/3    *7"; whitespace_cleaner(arg);
-	ASSERT_STR_EQ(arg, "1+2/3*7");
+    char arg[] = "1+ 2/3    *7";
+    whitespace_cleaner(arg);
+    ASSERT_STR_EQ(arg, "1+2/3*7");
 
-	char arg2[] = " "; whitespace_cleaner(arg2);
-	ASSERT_STR_EQ(arg2, "");
+    char arg2[] = " ";
+    whitespace_cleaner(arg2);
+    ASSERT_STR_EQ(arg2, "");
 
-	PASS();
+    PASS();
 }
 
 SUITE(whitespace_cleaner_suit)
 {
-	RUN_TEST(whitespace_cleaner_should_remove_whitespaces);
+    RUN_TEST(whitespace_cleaner_should_remove_whitespaces);
 }
 
 TEST to_rpn_should_transform_token_array_to_reverse_polish_notation(void)
 {
-	char test_expr[] = "128 + 256 * 42.45 / ( -2.42 - 324.01 ) ^ 2192.1 ^ 4214.2";
-	char correct_answ[MAX_LENGTH][MAX_TOKEN_LENGTH] = {
-		"128", "256", "42.45", 
-		"*", 
-		"0", "2.42", 
-		"-", 
-		"324.01", 
-		"-", 
-		"2192.1", "4214.2", 
-		"^", 
-		"^", 
-		"/", 
-		"+"
-	};
+    char test_expr[] = "128 + 256 * 42.45 / ( -2.42 - 324.01 ) ^ 2192.1 ^ 4214.2";
+    char correct_answ[MAX_LENGTH][MAX_TOKEN_LENGTH] = {
+        "128", "256", "42.45",
+        "*",
+        "0", "2.42",
+        "-",
+        "324.01",
+        "-",
+        "2192.1", "4214.2",
+        "^",
+        "^",
+        "/",
+        "+"
+    };
 
-	TokenArray postfix_expr = to_rpn(split_to_tokens(test_expr));
+    TokenArray postfix_expr = to_rpn(split_to_tokens(test_expr));
 
-	for (int i = 0; i < postfix_expr.size; i++) {
-		ASSERT_STR_EQ(correct_answ[i], postfix_expr.array[i]);
-	}
+    for (int i = 0; i < postfix_expr.size; i++) {
+        ASSERT_STR_EQ(correct_answ[i], postfix_expr.array[i]);
+    }
 
-	PASS();
+    PASS();
 }
 
 SUITE(to_rpn_suit)
 {
-	RUN_TEST(to_rpn_should_transform_token_array_to_reverse_polish_notation);
+    RUN_TEST(to_rpn_should_transform_token_array_to_reverse_polish_notation);
 }
 
 TEST split_to_tokens_should_split_to_tokens(void)
 {
-    enum {COUNT_OF_TESTS = 9};
+    enum { COUNT_OF_TESTS = 9 };
     char tests[COUNT_OF_TESTS][MAX_LENGTH] = {
         "",
         "1 + 2",
@@ -90,17 +93,17 @@ TEST split_to_tokens_should_split_to_tokens(void)
         "-1*(7+exp(-2^12.2 + 123)-12.7777+pow(12,var2))/27.7-12.0",
         "(-1)*(7+exp(-2^12.2 + 123)-12.7777+pow(12,var2))/27.7-12.0"
     };
-    
+
     char expects[COUNT_OF_TESTS][MAX_LENGTH][MAX_LENGTH] = {
-        {""},
-        {"1","+","2"},
-        {"3", "-", "3", "*", "3"},
-        {"2", "+", "var","-"},
-        {"2","*","(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")"},
-        {"2","*","(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0"},
-        {"0", "-", "1","*","(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0"},
-        {"0", "-", "1","*","(", "7", "+", "exp", "(", "0", "-", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0"},
-        {"(", "0", "-", "1", ")","*","(", "7", "+", "exp", "(", "0", "-", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0"},
+        { "" },
+        { "1", "+", "2" },
+        { "3", "-", "3", "*", "3" },
+        { "2", "+", "var", "-" },
+        { "2", "*", "(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")" },
+        { "2", "*", "(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0" },
+        { "0", "-", "1", "*", "(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0" },
+        { "0", "-", "1", "*", "(", "7", "+", "exp", "(", "0", "-", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0" },
+        { "(", "0", "-", "1", ")", "*", "(", "7", "+", "exp", "(", "0", "-", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "var2", ")", ")", "/", "27.7", "-", "12.0" },
     };
 
     for (int test_index = 0; test_index < COUNT_OF_TESTS; test_index++) {
@@ -112,7 +115,6 @@ TEST split_to_tokens_should_split_to_tokens(void)
     }
 
     PASS();
-
 }
 
 SUITE(split_to_tokens_suit)
@@ -120,13 +122,57 @@ SUITE(split_to_tokens_suit)
     RUN_TEST(split_to_tokens_should_split_to_tokens);
 }
 
-GREATEST_MAIN_DEFS();
-int main(int argc, char **argv)
+TEST eval_should_count_correct(void)
 {
-	GREATEST_MAIN_BEGIN();
-	RUN_SUITE(is_double_suit);
-	RUN_SUITE(whitespace_cleaner_suit);
-	RUN_SUITE(to_rpn_suit);
+    char tests[5][MAX_LENGTH] = {
+        "10 + 5",
+        "2 * 128 / 2",
+        "5 / 0",
+        "214.4 * 4.7 + (32.11 / 2)",
+        "128 + 4.45 * (- 2.42 - 3.01 ) ^ 2 ^ 3"
+    };
+
+    TokenArray first_test = to_rpn(split_to_tokens(tests[0]));
+    TokenArray second_test = to_rpn(split_to_tokens(tests[1]));
+    TokenArray third_test = to_rpn(split_to_tokens(tests[2]));
+    TokenArray fourth_test = to_rpn(split_to_tokens(tests[3]));
+    TokenArray fifth_test = to_rpn(split_to_tokens(tests[4]));
+
+    double correct_answ[5] = {
+        15,
+        128,
+        INFINITY,
+        1023.735,
+        3363374.10333
+    };
+
+    ASSERT_IN_RANGE(correct_answ[0], eval(first_test), 0.01);
+    ASSERT_IN_RANGE(correct_answ[1], eval(second_test), 0.01);
+    ASSERT_IN_RANGE(correct_answ[2], eval(third_test), 0.01);
+    ASSERT_IN_RANGE(correct_answ[3], eval(fourth_test), 0.01);
+    ASSERT_IN_RANGE(correct_answ[4], eval(fifth_test), 0.01);
+
+    free_token_array(&first_test);
+    free_token_array(&second_test);
+    free_token_array(&third_test);
+    free_token_array(&fourth_test);
+    free_token_array(&fifth_test);
+
+    PASS();
+}
+
+SUITE(eval_suit)
+{
+    RUN_TEST(eval_should_count_correct);
+}
+
+GREATEST_MAIN_DEFS();
+int main(int argc, char** argv)
+{
+    GREATEST_MAIN_BEGIN();
+    RUN_SUITE(is_double_suit);
+    RUN_SUITE(whitespace_cleaner_suit);
     RUN_SUITE(split_to_tokens_suit);
-	GREATEST_MAIN_END();
+    RUN_SUITE(eval_suit);
+    GREATEST_MAIN_END();
 }
