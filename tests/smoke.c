@@ -168,7 +168,7 @@ SUITE(eval_suit)
 
 TEST variables_to_values_should_replace_variables_to_values()
 {
-    enum {COUNT_OF_TESTS = 9};
+    enum { COUNT_OF_TESTS = 9 };
     char tests[COUNT_OF_TESTS][MAX_LENGTH] = {
         "1 - x",
         "1 + x",
@@ -182,13 +182,13 @@ TEST variables_to_values_should_replace_variables_to_values()
     };
 
     Variable tests_vars[COUNT_OF_TESTS][MAX_VARS_AMOUNT] = {
-        { { .name = "x", .value = -2} },
-        { { .name = "x", .value = -3} },
-        { { .name = "x", .value = -2} },
-        { { .name = "var", .value = -100} },
-        { { .name = "var2", .value = 3.14} },
-        { { .name = "var2", .value = 354 }, { .name = "pow1", .value = 1.0} },
-        { { .name = "exp1", .value = 2.78}, { .name = "var2", .value = 2.0} },
+        { { .name = "x", .value = -2 } },
+        { { .name = "x", .value = -3 } },
+        { { .name = "x", .value = -2 } },
+        { { .name = "var", .value = -100 } },
+        { { .name = "var2", .value = 3.14 } },
+        { { .name = "var2", .value = 354 }, { .name = "pow1", .value = 1.0 } },
+        { { .name = "exp1", .value = 2.78 }, { .name = "var2", .value = 2.0 } },
         { { .name = "exp2", .value = 9.999 }, { .name = "pow12", .value = 12.2 }, { .name = "var2", .value = 13.2 } },
         { { .name = "exp4", .value = 123.123 }, { .name = "powder", .value = 312.321 }, { .name = "JINX", .value = 321.123 } },
     };
@@ -227,7 +227,7 @@ TEST variables_to_values_should_replace_variables_to_values()
 
         free_token_array(&test);
     }
-    
+
     PASS();
 }
 
