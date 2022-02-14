@@ -199,6 +199,5 @@ TokenArray to_rpn(TokenArray infix_expr)
         strcpy(postfix_expr.array[(*size)++], pop(stack));
     }
     delete_stack(&stack);
-    // free_token_array(&postfix_expr);
     return postfix_expr;
 }
