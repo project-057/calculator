@@ -98,27 +98,27 @@ TEST eval_should_count_correct(void) {
 
 	TokenArray first_test = to_rpn(split_to_tokens(tests[0]));  
 	TokenArray second_test = to_rpn(split_to_tokens(tests[1]));
-	//TokenArray third_test = to_rpn(split_to_tokens(tests[2]));
+	TokenArray third_test = to_rpn(split_to_tokens(tests[2]));
 	TokenArray fourth_test = to_rpn(split_to_tokens(tests[3]));
 	TokenArray fifth_test = to_rpn(split_to_tokens(tests[4]));
 	
 	double correct_answ[5] = {
 		15,
 		128,
-		-999999,
+		INFINITY,
 		1023.735,
 		3363374.10333	
 	};
 
 	ASSERT_IN_RANGE(correct_answ[0], eval(first_test), 0.01);
 	ASSERT_IN_RANGE(correct_answ[1], eval(second_test), 0.01);
-	// ASSERT_IN_RANGE(correct_answ[2], eval(third_test), 0.01);
+	ASSERT_IN_RANGE(correct_answ[2], eval(third_test), 0.01);
 	ASSERT_IN_RANGE(correct_answ[3], eval(fourth_test), 0.01);
 	ASSERT_IN_RANGE(correct_answ[4], eval(fifth_test), 0.01);
 
 	free_token_array(&first_test);
 	free_token_array(&second_test);
-	// free_token_array(&third_test);
+	free_token_array(&third_test);
 	free_token_array(&fourth_test);
 	free_token_array(&fifth_test);
 
