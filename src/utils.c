@@ -169,13 +169,13 @@ TokenArray to_rpn(TokenArray infix_expr)
         postfix_expr.array[i] = calloc(MAX_LENGTH, sizeof(char*));
     }
 
-    int* j = &postfix_expr.size;
+    int* size = &postfix_expr.size;
 
     for (int i = 0; i < infix_expr.size; i++) {
         char first_char = infix_expr.array[i][0];
 
         if (is_double(infix_expr.array[i]) || is_function(infix_expr.array[i])) {
-            strcpy(postfix_expr.array[(*j)++], infix_expr.array[i]);
+            strcpy(postfix_expr.array[(*size)++], infix_expr.array[i]);
         } else if (is_operator(first_char)) {
             if (top(stack) != NULL) {
                 int priority = operations_priority(*top(stack), first_char);
@@ -183,7 +183,7 @@ TokenArray to_rpn(TokenArray infix_expr)
                 bool left_associative = is_left_associative(first_char);
 
                 while (top(stack) != NULL && *top(stack) != '(' && (priority == 1 || (priority == 0 && left_associative))) {
-                    strcpy(postfix_expr.array[(*j)++], pop(stack));
+                    strcpy(postfix_expr.array[(*size)++], pop(stack));
                     if (top(stack) != NULL) {
                         priority = operations_priority(*top(stack), first_char);
                         left_associative = is_left_associative(first_char);
@@ -197,14 +197,14 @@ TokenArray to_rpn(TokenArray infix_expr)
         } else if (first_char == ')') {
             char* tmp = calloc(MAX_LENGTH, sizeof *tmp);
             while (*strcpy(tmp, pop(stack)) != '(') {
-                strcpy(postfix_expr.array[(*j)++], tmp);
+                strcpy(postfix_expr.array[(*size)++], tmp);
             }
             free(tmp);
         }
     }
 
     while (top(stack) != NULL) {
-        strcpy(postfix_expr.array[(*j)++], pop(stack));
+        strcpy(postfix_expr.array[(*size)++], pop(stack));
     }
     delete_stack(&stack);
     return postfix_expr;
