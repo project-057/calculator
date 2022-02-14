@@ -89,8 +89,10 @@ SUITE(split_to_tokens_suit)
 TEST eval_should_count_correct(void) {
 
 	char tests[5][MAX_LENGTH] = {
-		"10 + 5", "2 * 128 / 2",
-		"5 / 0", "214.4 * 4.7 + (32.11 / 2)",
+		"10 + 5",
+		"2 * 128 / 2",
+		"5 / 0", 
+		"214.4 * 4.7 + (32.11 / 2)",
 		"128 + 4.45 * (- 2.42 - 3.01 ) ^ 2 ^ 3"
 	};
 
@@ -103,7 +105,7 @@ TEST eval_should_count_correct(void) {
 	double correct_answ[5] = {
 		15,
 		128,
-		//-999999,
+		-999999,
 		1023.735,
 		3363374.10333	
 	};
