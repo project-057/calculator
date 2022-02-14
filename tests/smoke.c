@@ -166,6 +166,76 @@ SUITE(eval_suit)
     RUN_TEST(eval_should_count_correct);
 }
 
+TEST variables_to_values_should_replace_variables_to_values()
+{
+    enum {COUNT_OF_TESTS = 9};
+    char tests[COUNT_OF_TESTS][MAX_LENGTH] = {
+        "1 - x",
+        "1 + x",
+        "3 - x*3",
+        "2 + var -",
+        "2*(7+exp(2^12.2 + 123)-12.7777+pow(12,var2))",
+        "2*(7+exp(2^12.2 + 123)-12.7777+pow1(12,var2))/27.7-12.0",
+        "-1*(7+exp1(2^12.2 + 123)-12.7777+pow(12,var2))/27.7-12.0",
+        "-1*(7+exp2(2^12.2 + 123)-12.7777+pow12(12,var2))/27.7-12.0",
+        "(-1)*(7+exp4(-2^12.2 + 123)-12.7777+powder(12, JINX))"
+    };
+
+    Variable tests_vars[COUNT_OF_TESTS][MAX_VARS_AMOUNT] = {
+        { { .name = "x", .value = -2} },
+        { { .name = "x", .value = -3} },
+        { { .name = "x", .value = -2} },
+        { { .name = "var", .value = -100} },
+        { { .name = "var2", .value = 3.14} },
+        { { .name = "var2", .value = 354 }, { .name = "pow1", .value = 1.0} },
+        { { .name = "exp1", .value = 2.78}, { .name = "var2", .value = 2.0} },
+        { { .name = "exp2", .value = 9.999 }, { .name = "pow12", .value = 12.2 }, { .name = "var2", .value = 13.2 } },
+        { { .name = "exp4", .value = 123.123 }, { .name = "powder", .value = 312.321 }, { .name = "JINX", .value = 321.123 } },
+    };
+
+    int tests_var_sizes[COUNT_OF_TESTS] = {
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        3,
+        3
+    };
+
+    TokenArray expects[COUNT_OF_TESTS] = {
+        { .array = { "1", "-", "-2" }, .size = 3 },
+        { .array = { "1", "+", "-3" }, .size = 3 },
+        { .array = { "3", "-", "-2", "*", "3" }, .size = 5 },
+        { .array = { "2", "+", "-100", "-" }, .size = 4 },
+        { .array = { "2", "*", "(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "3.14", ")", ")" }, .size = 23 },
+        { .array = { "2", "*", "(", "7", "+", "exp", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "1.0", "(", "12", ",", "354", ")", ")", "/", "27.7", "-", "12.0" }, .size = 27 },
+        { .array = { "0", "-", "1", "*", "(", "7", "+", "2.78", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "pow", "(", "12", ",", "2.0", ")", ")", "/", "27.7", "-", "12.0" }, .size = 29 },
+        { .array = { "0", "-", "1", "*", "(", "7", "+", "9.999", "(", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "12.2", "(", "12", ",", "13.2", ")", ")", "/", "27.7", "-", "12.0" }, .size = 29 },
+        { .array = { "(", "0", "-", "1", ")", "*", "(", "7", "+", "123.123", "(", "0", "-", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "312.321", "(", "12", ",", "321.123", ")", ")" }, .size = 29 }
+    };
+
+    for (int test_index = 0; test_index < COUNT_OF_TESTS; test_index++) {
+        TokenArray test = split_to_tokens(tests[test_index]);
+        TokenArray got = variables_to_values(test, tests_vars[test_index], tests_var_sizes[test_index]);
+
+        for (int i = 0; i < got.size; i++) {
+            ASSERT_STR_EQ(expects[test_index].array[i], got.array[i]);
+        }
+
+        free_token_array(&test);
+    }
+    
+    PASS();
+}
+
+SUITE(vtv_test_suit)
+{
+    RUN_TEST(variables_to_values_should_replace_variables_to_values);
+}
+
 GREATEST_MAIN_DEFS();
 int main(int argc, char** argv)
 {
@@ -174,5 +244,6 @@ int main(int argc, char** argv)
     RUN_SUITE(whitespace_cleaner_suit);
     RUN_SUITE(split_to_tokens_suit);
     RUN_SUITE(eval_suit);
+    RUN_SUITE(vtv_test_suit);
     GREATEST_MAIN_END();
 }
