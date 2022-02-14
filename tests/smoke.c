@@ -235,6 +235,7 @@ TEST variables_to_values_should_replace_variables_to_values()
         }
 
         free_token_array(&test);
+        free_token_array(&got);
     }
 
     PASS();
