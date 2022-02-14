@@ -9,11 +9,11 @@
 #include "utils.h"
 
 typedef enum {
-    SM_NONE,
-    SM_WORD,
-    SM_OPERATOR,
-    SM_VALUE
-} SplitMode;
+    TT_NONE,
+    TT_WORD,
+    TT_OPERATOR,
+    TT_VALUE
+} TokenType;
 
 static bool in(char* array, char value)
 {
@@ -25,24 +25,40 @@ static bool in(char* array, char value)
     return false;
 }
 
-static bool is_character_changed(char character)
+/* To reset statics inside put to the argument -1 or call reset_statics() function  */
+static bool is_token_type_changed(char character, int index)
 {
-    static SplitMode split_mode = SM_NONE;
-    SplitMode previous = split_mode;
-    char operators[] = "+-/*^()";
+    static char previous_character = '\0';
+    static TokenType token_type = TT_NONE;
 
-    if (isalpha(character)) {
-        split_mode = SM_WORD;
-    } else if (isdigit(character) || character == '.') {
-        split_mode = SM_VALUE;
-    } else if (in(operators, character)) {
-        split_mode = SM_OPERATOR;
-        return true;
-    } else {
-        split_mode = SM_NONE;
+    if (index == -1) {
+        previous_character = '\0';
+        token_type = TT_NONE;
     }
 
-    return split_mode != previous;
+    TokenType previous = token_type;
+    char operators[] = "+-/*^()";
+
+    if (isalpha(character) || (previous == TT_WORD && isdigit(character))) {
+        token_type = TT_WORD;
+    } else if (isdigit(character) || character == '.') {
+        token_type = TT_VALUE;
+    } else if (in(operators, character)) {
+        token_type = TT_OPERATOR;
+        previous_character = character;
+        return true;
+    } else {
+        token_type = TT_NONE;
+    }
+
+    previous_character = character;
+
+    return token_type != previous;
+}
+
+static void reset_statics()
+{
+    is_token_type_changed('\0', -1);
 }
 
 TokenArray split_to_tokens(char* infix_expr)
@@ -53,11 +69,15 @@ TokenArray split_to_tokens(char* infix_expr)
     int current_token_size = 0;
 
     for (int i = 0; i < len; ++i) {
-        if (is_character_changed(infix_expr[i]) && current_token_size != 0) {
+        if (is_token_type_changed(infix_expr[i], i) && current_token_size != 0) {
             stack.size++;
             current_token_size = 0;
         }
-
+        if (infix_expr[i] == '-' && (i == 0 || infix_expr[i - 1] == '(')) {
+            stack.array[stack.size - 1][current_token_size++] = '0';
+            stack.size++;
+            current_token_size = 0;
+        }
         stack.array[stack.size - 1][current_token_size++] = infix_expr[i];
     }
 
@@ -85,8 +105,9 @@ static int operations_priority(char first_opr, char second_opr)
 
 void whitespace_cleaner(char* str)
 {
+    int len = strlen(str);
     int j = 0;
-    for (int i = 0; str[i] != '\0'; i++) {
+    for (int i = 0; i < len; i++) {
         if (str[i] != ' ') {
             str[j++] = str[i];
         }
@@ -182,7 +203,6 @@ TokenArray to_rpn(TokenArray infix_expr)
                     left_associative = is_left_associative(first_char);
                 }
             }
-
             push(stack, infix_expr.array[i]);
         } else if (first_char == '(') {
             push(stack, "(");
@@ -199,6 +219,5 @@ TokenArray to_rpn(TokenArray infix_expr)
         strcpy(postfix_expr.array[(*j)++], pop(stack));
     }
     delete_stack(&stack);
-
     return postfix_expr;
 }
