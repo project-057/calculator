@@ -87,28 +87,38 @@ SUITE(split_to_tokens_suit)
 }
 
 TEST eval_should_count_correct(void) {
-	TokenArray tests_in_rpn[5];
 
 	char tests[5][MAX_LENGTH] = {
 		"10 + 5", "2 * 128 / 2",
 		"5 / 0", "214.4 * 4.7 + (32.11 / 2)",
 		"128 + 4.45 * (- 2.42 - 3.01 ) ^ 2 ^ 3"
 	};
-	for (int i = 0; i < 5; i++) {
-		tests_in_rpn[i] = to_rpn(split_to_tokens(tests[i]));
-	}
 
+	TokenArray first_test = to_rpn(split_to_tokens(tests[0]));  
+	TokenArray second_test = to_rpn(split_to_tokens(tests[1]));
+	//TokenArray third_test = to_rpn(split_to_tokens(tests[2]));
+	TokenArray fourth_test = to_rpn(split_to_tokens(tests[3]));
+	TokenArray fifth_test = to_rpn(split_to_tokens(tests[4]));
+	
 	double correct_answ[5] = {
 		15,
 		128,
-		-999999,
+		//-999999,
 		1023.735,
 		3363374.10333	
 	};
 
-	for (int i = 0; i < 5; i++) {
-		ASSERT_IN_RANGE(correct_answ[i], eval(tests_in_rpn[i]), 0.01);
-	}
+	ASSERT_IN_RANGE(correct_answ[0], eval(first_test), 0.01);
+	ASSERT_IN_RANGE(correct_answ[1], eval(second_test), 0.01);
+	// ASSERT_IN_RANGE(correct_answ[2], eval(third_test), 0.01);
+	ASSERT_IN_RANGE(correct_answ[3], eval(fourth_test), 0.01);
+	ASSERT_IN_RANGE(correct_answ[4], eval(fifth_test), 0.01);
+
+	free_token_array(&first_test);
+	free_token_array(&second_test);
+	// free_token_array(&third_test);
+	free_token_array(&fourth_test);
+	free_token_array(&fifth_test);
 
 	PASS();
 }
