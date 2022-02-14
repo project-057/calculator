@@ -24,7 +24,7 @@ isformatted: $(DEPS)
 
 .PHONY: format
 format: $(DEPS)
-	$(CLANG-FORMAT) -i $(DEPS)
+	$(CLANG-FORMAT) -i $(DEPS) $(TEST_DEPS)
 
 .PHONY: clean
 clean:
