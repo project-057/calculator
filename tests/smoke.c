@@ -48,6 +48,37 @@ SUITE(whitespace_cleaner_suit)
     RUN_TEST(whitespace_cleaner_should_remove_whitespaces);
 }
 
+TEST to_rpn_should_transform_token_array_to_reverse_polish_notation(void)
+{
+    char test_expr[] = "128 + 256 * 42.45 / ( -2.42 - 324.01 ) ^ 2192.1 ^ 4214.2";
+    char correct_answ[MAX_LENGTH][MAX_TOKEN_LENGTH] = {
+        "128", "256", "42.45",
+        "*",
+        "0", "2.42",
+        "-",
+        "324.01",
+        "-",
+        "2192.1", "4214.2",
+        "^",
+        "^",
+        "/",
+        "+"
+    };
+
+    TokenArray postfix_expr = to_rpn(split_to_tokens(test_expr));
+
+    for (int i = 0; i < postfix_expr.size; i++) {
+        ASSERT_STR_EQ(correct_answ[i], postfix_expr.array[i]);
+    }
+
+    PASS();
+}
+
+SUITE(to_rpn_suit)
+{
+    RUN_TEST(to_rpn_should_transform_token_array_to_reverse_polish_notation);
+}
+
 TEST split_to_tokens_should_split_to_tokens(void)
 {
     enum { COUNT_OF_TESTS = 9 };
