@@ -6,8 +6,7 @@
 #include "utils.h"
 #include "variable.h"
 
-const char* variable_request = "Write a variable with its value \033[0;33m(or press <C-d> to stop)\
-                              \n\033[0;31muse format -> 'x = 1.0' :\033[0m";
+const char* variable_request = "Write a variable with its value or\033[0;33m press <C-d> to stop \033[0;31m(e.g. x = 1.0)\033[0m";
 
 int main(void)
 {
@@ -24,7 +23,6 @@ int main(void)
 
     /* TODO: Using get_variable instead */
     for (int counter = 0; fgets(line, MAX_LENGTH, stdin); counter++) {
-        puts(variable_request);
         whitespace_cleaner(line);
 
         char* token = strtok(line, "="); /* divide line by '=' symbol */
