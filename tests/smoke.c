@@ -217,8 +217,6 @@ TEST variables_to_values_should_replace_variables_to_values()
         { "(", "0", "-", "1", ")", "*", "(", "7", "+", "123.123", "(", "0", "-", "2", "^", "12.2", "+", "123", ")", "-", "12.7777", "+", "312.321", "(", "12", ",", "321.123", ")", ")" }
     };
 
-    int expects_sizes[COUNT_OF_TESTS] = { 3, 3, 5, 4, 23, 27, 29, 29, 29 };
-
     for (int test_index = 0; test_index < COUNT_OF_TESTS; test_index++) {
         TokenArray test = split_to_tokens(tests[test_index]);
         TokenArray got = variables_to_values(test, tests_vars[test_index], tests_var_sizes[test_index]);
