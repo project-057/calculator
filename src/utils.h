@@ -20,6 +20,7 @@ TokenArray split_to_tokens(char* infix_expr);
 
 void whitespace_cleaner(char* string);
 void free_token_array(TokenArray* ta);
+void get_variables(char *str, Variable *variables);
 
 bool is_function(char* str);
 bool is_double(char* value);
