@@ -18,7 +18,7 @@ int main(void)
     int var_size = 0;
     while (variables[var_size++].name[0]) { }
 
-    infix_expr = variables_to_values(infix_expr, variables, --var_size);
+    infix_expr = variables_to_values(infix_expr, variables, var_size - 1);
 
     TokenArray postfix_expr = to_rpn(infix_expr);
     double result = eval(postfix_expr);
