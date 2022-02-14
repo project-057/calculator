@@ -21,6 +21,7 @@ int main(void)
     TokenArray new_infix_expr = variables_to_values(infix_expr, variables, var_size - 1);
 
     TokenArray postfix_expr = to_rpn(new_infix_expr);
+
     double result = eval(postfix_expr);
 
     printf("Result: \e[1;32m%f\033[0m\n", result);
