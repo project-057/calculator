@@ -47,52 +47,30 @@ SUITE(whitespace_cleaner_suit)
 
 TEST to_rpn_should_transform_token_array_to_reverse_polish_notation(void)
 {
-	char tmp[] = "128 + 256 * 42.45 / ( -2.42 − 324.01 ) ^ 2192.1 ^ 4214.2";
-    TokenArray infix_expr = split_to_tokens(tmp);
-	// infix_expr.array[0] = "128";	
-	// infix_expr.array[1] = "+";	
-	// infix_expr.array[2] = "256";	
-	// infix_expr.array[3] = "*";	
-	// infix_expr.array[4] = "42.45";	
-	// infix_expr.array[5] = "/";	
-	// infix_expr.array[6] = "(";	
-	// infix_expr.array[7] = "-2.42";	
-	// infix_expr.array[8] = "-";	
-	// infix_expr.array[9] = "324.01";	
-	// infix_expr.array[10] = ")";	
-	// infix_expr.array[11] = "^";	
-	// infix_expr.array[12] = "2192.1";	
-	// infix_expr.array[13] = "^";	
-	// infix_expr.array[14] = "4214.2";	
-	// infix_expr.size = 15;
-	//
-	for (int i = 0; i < infix_expr.size; i++) {
-		puts(infix_expr.array[i]);
-	}
+	char test_expr[] = "128 + 256 * 42.45 / ( -2.42 - 324.01 ) ^ 2192.1 ^ 4214.2";
+	char correct_answ[MAX_LENGTH][MAX_TOKEN_LENGTH] = {
+		"128", "256", "42.45", 
+		"*", 
+		"0", "2.42", 
+		"-", 
+		"324.01", 
+		"-", 
+		"2192.1", "4214.2", 
+		"^", 
+		"^", 
+		"/", 
+		"+"
+	};
 
+    TokenArray infix_expr = split_to_tokens(test_expr);
 	TokenArray postfix_expr = to_rpn(infix_expr);
 
-    TokenArray correct_postfix_expr = create_token_array(); 
-	correct_postfix_expr.array[0] = "128";	
-	correct_postfix_expr.array[1] = "256";	
-	correct_postfix_expr.array[2] = "42.45";	
-	correct_postfix_expr.array[3] = "*";	
-	correct_postfix_expr.array[4] = "-2.42";	
-	correct_postfix_expr.array[5] = "324.01";	
-	correct_postfix_expr.array[6] = "-";	
-	correct_postfix_expr.array[7] = "2192.1";	
-	correct_postfix_expr.array[8] = "4214.2";	
-	correct_postfix_expr.array[9] = "^";	
-	correct_postfix_expr.array[10] = "^";	
-	correct_postfix_expr.array[11] = "/";	
-	correct_postfix_expr.array[12] = "+";	
-	correct_postfix_expr.size = 13;
-
 	for (int i = 0; i < postfix_expr.size; i++) {
-		ASSERT_STR_EQ(correct_postfix_expr.array[i], postfix_expr.array[i]);
+		ASSERT_STR_EQ(correct_answ[i], postfix_expr.array[i]);
 	}
 
-	// free_token_array(&infix_expr);
+	free_token_array(&infix_expr);
+	free_token_array(&postfix_expr);
 
 	PASS();
 }
