@@ -237,8 +237,9 @@ TEST variables_to_values_should_replace_variables_to_values()
 
         for (int i = 0; i < got.size; i++) {
             if (is_double(expects[test_index][i])) {
-                double exp_double = strtod(expects[test_index][i]);
-                double got_double = strtod(got.array[i]);
+                char *end_ptr;
+                double exp_double = strtod(expects[test_index][i], &end_ptr);
+                double got_double = strtod(got.array[i], &end_ptr);
                 ASSERT_IN_RANGE(exp_double, got_double, 0.00001);
             } else {
                 ASSERT_STR_EQ(expects[test_index][i], got.array[i]);
