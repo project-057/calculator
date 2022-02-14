@@ -62,14 +62,12 @@ TEST to_rpn_should_transform_token_array_to_reverse_polish_notation(void)
 		"+"
 	};
 
-    TokenArray infix_expr = split_to_tokens(test_expr);
-	TokenArray postfix_expr = to_rpn(infix_expr);
+	TokenArray postfix_expr = to_rpn(split_to_tokens(test_expr));
 
 	for (int i = 0; i < postfix_expr.size; i++) {
 		ASSERT_STR_EQ(correct_answ[i], postfix_expr.array[i]);
 	}
 
-	free_token_array(&infix_expr);
 	free_token_array(&postfix_expr);
 
 	PASS();
