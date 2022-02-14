@@ -184,8 +184,10 @@ TokenArray to_rpn(TokenArray infix_expr)
 
                 while (top(stack) != NULL && *top(stack) != '(' && (priority == 1 || (priority == 0 && left_associative))) {
                     strcpy(postfix_expr.array[(*j)++], pop(stack));
-                    priority = operations_priority(*top(stack), first_char);
-                    left_associative = is_left_associative(first_char);
+					if (top(stack) != NULL) {
+                    	priority = operations_priority(*top(stack), first_char);
+                    	left_associative = is_left_associative(first_char);
+					}
                 }
             }
 
