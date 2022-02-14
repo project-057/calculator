@@ -3,7 +3,6 @@ RM=rm -f
 CLANG-FORMAT=clang-format
 
 WARNING=-Wall -Wextra -Werror
-
 FLAGS=$(WARNING) -std=c11 -lm
 SRC_WITHOUT_MAIN=src/eval.c src/utils.c src/stack.c src/variable.c src/vtv.c
 SRC=src/calculator.c $(SRC_WITHOUT_MAIN)

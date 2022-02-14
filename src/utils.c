@@ -26,15 +26,9 @@ static bool in(char* array, char value)
 }
 
 /* To reset statics inside put to the argument -1 or call reset_statics() function  */
-static bool is_token_type_changed(char character, int index)
+static bool is_token_type_changed(char character)
 {
-    static char previous_character = '\0';
     static TokenType token_type = TT_NONE;
-
-    if (index == -1) {
-        previous_character = '\0';
-        token_type = TT_NONE;
-    }
 
     TokenType previous = token_type;
     char operators[] = "+-/*^()";
@@ -45,20 +39,11 @@ static bool is_token_type_changed(char character, int index)
         token_type = TT_VALUE;
     } else if (in(operators, character)) {
         token_type = TT_OPERATOR;
-        previous_character = character;
         return true;
     } else {
         token_type = TT_NONE;
     }
-
-    previous_character = character;
-
     return token_type != previous;
-}
-
-static void reset_statics()
-{
-    is_token_type_changed('\0', -1);
 }
 
 TokenArray split_to_tokens(char* infix_expr)
@@ -69,7 +54,7 @@ TokenArray split_to_tokens(char* infix_expr)
     int current_token_size = 0;
 
     for (int i = 0; i < len; ++i) {
-        if (is_token_type_changed(infix_expr[i], i) && current_token_size != 0) {
+        if (is_token_type_changed(infix_expr[i]) && current_token_size != 0) {
             stack.size++;
             current_token_size = 0;
         }
@@ -174,6 +159,7 @@ bool is_function(char* str)
 TokenArray to_rpn(TokenArray infix_expr)
 {
     Stack* stack = create_stack();
+
     TokenArray postfix_expr = {
         .array = calloc(MAX_LENGTH, sizeof postfix_expr),
         .size = 0
@@ -183,40 +169,40 @@ TokenArray to_rpn(TokenArray infix_expr)
         postfix_expr.array[i] = calloc(MAX_LENGTH, sizeof(char*));
     }
 
-    int j = 0;
+    int* j = &postfix_expr.size;
 
     for (int i = 0; i < infix_expr.size; i++) {
         char first_char = infix_expr.array[i][0];
 
         if (is_double(infix_expr.array[i]) || is_function(infix_expr.array[i])) {
-            strcpy(postfix_expr.array[j++], infix_expr.array[i]);
+            strcpy(postfix_expr.array[(*j)++], infix_expr.array[i]);
         } else if (is_operator(first_char)) {
-            int priority = -1;
+            if (top(stack) != NULL) {
+                int priority = operations_priority(*top(stack), first_char);
 
-            if (top(stack) != NULL)
-                priority = operations_priority(*top(stack), first_char);
+                bool left_associative = is_left_associative(first_char);
 
-            bool left_associative = is_left_associative(first_char);
-
-            while (top(stack) != NULL && *top(stack) != '(' && (priority == 1 || (priority == 0 && left_associative))) {
-                strcpy(postfix_expr.array[j++], pop(stack));
-                priority = operations_priority(*top(stack), first_char);
-                left_associative = is_left_associative(first_char);
+                while (top(stack) != NULL && *top(stack) != '(' && (priority == 1 || (priority == 0 && left_associative))) {
+                    strcpy(postfix_expr.array[(*j)++], pop(stack));
+                    priority = operations_priority(*top(stack), first_char);
+                    left_associative = is_left_associative(first_char);
+                }
             }
+
             push(stack, infix_expr.array[i]);
         } else if (first_char == '(') {
             push(stack, "(");
         } else if (first_char == ')') {
             char* tmp = calloc(MAX_LENGTH, sizeof *tmp);
             while (*strcpy(tmp, pop(stack)) != '(') {
-                strcpy(postfix_expr.array[j++], tmp);
+                strcpy(postfix_expr.array[(*j)++], tmp);
             }
             free(tmp);
         }
     }
 
     while (top(stack) != NULL) {
-        strcpy(postfix_expr.array[j++], pop(stack));
+        strcpy(postfix_expr.array[(*j)++], pop(stack));
     }
     delete_stack(&stack);
 
