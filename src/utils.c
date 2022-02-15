@@ -202,17 +202,21 @@ TokenArray to_rpn(TokenArray infix_expr)
     return postfix_expr;
 }
 
-void get_variables(char* expression, Variable* variables)
+void get_variables(char* expression, Variable* variables, bool is_raw_output)
 {
     char* variable_request = "Write a variable with its value or press \033[0;33m<C-d>\033[0m to stop (e.g. x = 1.0)\033[0m";
     char* line = calloc(MAX_LENGTH, sizeof *line);
 
     init_variable(variables);
 
-    puts("Write a math expression: ");
+	if (!is_raw_output) {
+		puts("Write a math expression:");
+	}
     fgets(expression, MAX_LENGTH, stdin);
 
-    puts(variable_request);
+	if (!is_raw_output) {
+		puts(variable_request);
+	}
     for (int counter = 0; fgets(line, MAX_LENGTH, stdin); counter++) {
         whitespace_cleaner(line);
 
