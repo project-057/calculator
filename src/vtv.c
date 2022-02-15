@@ -10,6 +10,7 @@ TokenArray variables_to_values(TokenArray tokens, Variable* vars_array, int var_
     for (int i = 0; i < tokens.size; i++) {
         strcpy(result.array[i], tokens.array[i]);
     }
+    result.size = tokens.size;
 
     for (int i = 0; i < tokens.size; i++) {
         if (isalpha(tokens.array[i][0])) {
