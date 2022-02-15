@@ -6,5 +6,6 @@ RUN apk add --no-cache\
 COPY . /app/calculator
 WORKDIR /app/calculator
 
-RUN make FLAGS+="-fuse-ld=lld --rtlib=compiler-rt -D_CRT_SECURE_NO_WARNINGS" test
-RUN make; python tests/run_full.py ./calculator
+ENV ADD_FLAGS "-fuse-ld=lld --rtlib=compiler-rt -D_CRT_SECURE_NO_WARNINGS"
+RUN make FLAGS+=${ADD_FLAGS} test
+RUN make FLAGS+=${ADD_FLAGS} integrationtest
