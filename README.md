@@ -76,12 +76,11 @@ make integrationtest
 <img width="1022" alt="изображение" src="https://user-images.githubusercontent.com/28492051/153965746-b09a5e43-2e3c-4532-a8ab-d296078d5e39.png">
 
 #### Логи пройденных тестов
-<img width="1652" alt="изображение" src="https://user-images.githubusercontent.com/28492051/153965984-0ba22001-914d-4226-98fd-0748c3b5b64d.png">
-
-<img width="1792" alt="Screenshot 2022-02-15 at 11 54 46 AM" src="https://user-images.githubusercontent.com/28492051/154027032-f6314199-7589-4fbb-8f17-1d2bc5ff32f8.png">
-
 <img width="1792" alt="Screenshot 2022-02-15 at 11 54 46 AM" src="https://user-images.githubusercontent.com/28492051/154027062-81c33dd5-8bb5-496d-9b14-c95b3f9123bc.png">
 
+<img width="1792" alt="Screenshot 2022-02-15 at 11 54 57 AM" src="https://user-images.githubusercontent.com/28492051/154027371-97881320-48e3-45dc-a5c9-d40468091508.png">
+
+<img width="1652" alt="изображение" src="https://user-images.githubusercontent.com/28492051/153965984-0ba22001-914d-4226-98fd-0748c3b5b64d.png">
 
 ## 📺 Дополнительная активность
 
