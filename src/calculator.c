@@ -7,9 +7,9 @@
 #include "utils.h"
 #include "variable.h"
 
-int main(int argc, char** argv)
+int main(void)
 {
-	const bool is_raw_output = (argc > 1 && strcmp(argv[1], "-r") == 0);
+	const bool is_raw_output = getenv("RAW");
 
     Variable variables[MAX_VARS_AMOUNT];
     char* expression = calloc(MAX_LENGTH, sizeof *expression);
