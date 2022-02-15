@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,10 +9,12 @@
 
 int main(void)
 {
+    const bool is_raw_output = getenv("RAW");
+
     Variable variables[MAX_VARS_AMOUNT];
     char* expression = calloc(MAX_LENGTH, sizeof *expression);
 
-    get_variables(expression, variables);
+    get_variables(expression, variables, is_raw_output);
 
     TokenArray infix_expr = split_to_tokens(expression);
 
@@ -25,7 +28,11 @@ int main(void)
     free_token_array(&new_infix_expr);
 
     double result = eval(postfix_expr);
-    printf("Result: \e[1;32m%f\033[0m\n", result);
+    if (is_raw_output) {
+        printf("%f\n", result);
+    } else {
+        printf("Result: \e[1;32m%f\033[0m\n", result);
+    }
 
     free_token_array(&postfix_expr);
     return 0;
