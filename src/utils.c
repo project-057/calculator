@@ -145,7 +145,7 @@ TokenArray create_token_array()
 
 void free_token_array(TokenArray* ta)
 {
-    for (int i = 0; i < ta->size; i++) {
+    for (int i = 0; i < MAX_LENGTH; i++) {
         free(ta->array[i]);
     }
     free(ta->array);
