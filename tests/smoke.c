@@ -223,7 +223,10 @@ TEST variables_to_values_should_replace_variables_to_values()
         TokenArray test = split_to_tokens(tests[test_index]);
         TokenArray got = variables_to_values(test, tests_vars[test_index], tests_var_sizes[test_index]);
 
-        for (int i = 0; i < got.size; i++) {
+        for (int i = 0; i < MAX_LENGTH; i++) {
+            if (*expects[test_index][i] == '\0') {
+                break;
+            }
             if (is_double(expects[test_index][i])) {
                 char* end_ptr;
                 double exp_double = strtod(expects[test_index][i], &end_ptr);
